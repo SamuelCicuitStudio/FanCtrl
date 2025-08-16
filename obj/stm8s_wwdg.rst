@@ -1,0 +1,113 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.0 #15242 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module stm8s_wwdg
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _WWDG_Init
+                                     11 	.globl _WWDG_SetCounter
+                                     12 	.globl _WWDG_GetCounter
+                                     13 	.globl _WWDG_SWReset
+                                     14 	.globl _WWDG_SetWindowValue
+                                     15 ;--------------------------------------------------------
+                                     16 ; ram data
+                                     17 ;--------------------------------------------------------
+                                     18 	.area DATA
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area INITIALIZED
+                                     23 ;--------------------------------------------------------
+                                     24 ; absolute external ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area DABS (ABS)
+                                     27 
+                                     28 ; default segment ordering for linker
+                                     29 	.area HOME
+                                     30 	.area GSINIT
+                                     31 	.area GSFINAL
+                                     32 	.area CONST
+                                     33 	.area INITIALIZER
+                                     34 	.area CODE
+                                     35 
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area HOME
+                                     40 	.area GSINIT
+                                     41 	.area GSFINAL
+                                     42 	.area GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area HOME
+                                     47 	.area HOME
+                                     48 ;--------------------------------------------------------
+                                     49 ; code
+                                     50 ;--------------------------------------------------------
+                                     51 	.area CODE
+                                     52 ;	lib/src/stm8s_wwdg.c: 53: void WWDG_Init(uint8_t Counter, uint8_t WindowValue)
+                                     53 ;	-----------------------------------------
+                                     54 ;	 function WWDG_Init
+                                     55 ;	-----------------------------------------
+      008AB6                         56 _WWDG_Init:
+                                     57 ;	lib/src/stm8s_wwdg.c: 58: WWDG->WR = WWDG_WR_RESET_VALUE;
+      008AB6 35 7F 50 D2      [ 1]   58 	mov	0x50d2+0, #0x7f
+                                     59 ;	lib/src/stm8s_wwdg.c: 59: WWDG->CR = (uint8_t)((uint8_t)(WWDG_CR_WDGA | WWDG_CR_T6) | (uint8_t)Counter);
+      008ABA AA C0            [ 1]   60 	or	a, #0xc0
+      008ABC C7 50 D1         [ 1]   61 	ld	0x50d1, a
+                                     62 ;	lib/src/stm8s_wwdg.c: 60: WWDG->WR = (uint8_t)((uint8_t)(~WWDG_CR_WDGA) & (uint8_t)(WWDG_CR_T6 | WindowValue));
+      008ABF 7B 03            [ 1]   63 	ld	a, (0x03, sp)
+      008AC1 AA 40            [ 1]   64 	or	a, #0x40
+      008AC3 A4 7F            [ 1]   65 	and	a, #0x7f
+      008AC5 C7 50 D2         [ 1]   66 	ld	0x50d2, a
+                                     67 ;	lib/src/stm8s_wwdg.c: 61: }
+      008AC8 85               [ 2]   68 	popw	x
+      008AC9 84               [ 1]   69 	pop	a
+      008ACA FC               [ 2]   70 	jp	(x)
+                                     71 ;	lib/src/stm8s_wwdg.c: 69: void WWDG_SetCounter(uint8_t Counter)
+                                     72 ;	-----------------------------------------
+                                     73 ;	 function WWDG_SetCounter
+                                     74 ;	-----------------------------------------
+      008ACB                         75 _WWDG_SetCounter:
+                                     76 ;	lib/src/stm8s_wwdg.c: 76: WWDG->CR = (uint8_t)(Counter & (uint8_t)BIT_MASK);
+      008ACB A4 7F            [ 1]   77 	and	a, #0x7f
+      008ACD C7 50 D1         [ 1]   78 	ld	0x50d1, a
+                                     79 ;	lib/src/stm8s_wwdg.c: 77: }
+      008AD0 81               [ 4]   80 	ret
+                                     81 ;	lib/src/stm8s_wwdg.c: 86: uint8_t WWDG_GetCounter(void)
+                                     82 ;	-----------------------------------------
+                                     83 ;	 function WWDG_GetCounter
+                                     84 ;	-----------------------------------------
+      008AD1                         85 _WWDG_GetCounter:
+                                     86 ;	lib/src/stm8s_wwdg.c: 88: return(WWDG->CR);
+      008AD1 C6 50 D1         [ 1]   87 	ld	a, 0x50d1
+                                     88 ;	lib/src/stm8s_wwdg.c: 89: }
+      008AD4 81               [ 4]   89 	ret
+                                     90 ;	lib/src/stm8s_wwdg.c: 96: void WWDG_SWReset(void)
+                                     91 ;	-----------------------------------------
+                                     92 ;	 function WWDG_SWReset
+                                     93 ;	-----------------------------------------
+      008AD5                         94 _WWDG_SWReset:
+                                     95 ;	lib/src/stm8s_wwdg.c: 98: WWDG->CR = WWDG_CR_WDGA; /* Activate WWDG, with clearing T6 */
+      008AD5 35 80 50 D1      [ 1]   96 	mov	0x50d1+0, #0x80
+                                     97 ;	lib/src/stm8s_wwdg.c: 99: }
+      008AD9 81               [ 4]   98 	ret
+                                     99 ;	lib/src/stm8s_wwdg.c: 108: void WWDG_SetWindowValue(uint8_t WindowValue)
+                                    100 ;	-----------------------------------------
+                                    101 ;	 function WWDG_SetWindowValue
+                                    102 ;	-----------------------------------------
+      008ADA                        103 _WWDG_SetWindowValue:
+                                    104 ;	lib/src/stm8s_wwdg.c: 113: WWDG->WR = (uint8_t)((uint8_t)(~WWDG_CR_WDGA) & (uint8_t)(WWDG_CR_T6 | WindowValue));
+      008ADA AA 40            [ 1]  105 	or	a, #0x40
+      008ADC A4 7F            [ 1]  106 	and	a, #0x7f
+      008ADE C7 50 D2         [ 1]  107 	ld	0x50d2, a
+                                    108 ;	lib/src/stm8s_wwdg.c: 114: }
+      008AE1 81               [ 4]  109 	ret
+                                    110 	.area CODE
+                                    111 	.area CONST
+                                    112 	.area INITIALIZER
+                                    113 	.area CABS (ABS)

@@ -1,0 +1,95 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 1
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000001 L
+    _CLK_HSIPrescalerConfig                                        ****** GX
+    _CLK_PeripheralClockConfig                                     ****** GX
+    _GPIO_DeInit                                                   ****** GX
+    _GPIO_Init                                                     ****** GX
+    _GPIO_ReadInputPin                                             ****** GX
+    _GPIO_WriteHigh                                                ****** GX
+    _GPIO_WriteLow                                                 ****** GX
+    _TIM4_ClearFlag                                                ****** GX
+    _TIM4_Cmd                                                      ****** GX
+    _TIM4_GetFlagStatus                                            ****** GX
+    _TIM4_SetCounter                                               ****** GX
+    _TIM4_TimeBaseInit                                             ****** GX
+    _WWDG_GetCounter                                               ****** GX
+    _WWDG_Init                                                     ****** GX
+    _WWDG_SetCounter                                               ****** GX
+    ___sdcc_external_startup                                       ****** GX
+  5 __interrupt_vect                                               000000 R
+    __modulong                                                     ****** GX
+  6 __sdcc_init_data                                               000009 R
+  5 __sdcc_program_startup                                         000004 R
+  3 __start__stack                                                 000000 R
+  9 __xinit__btn                                                   000008 R
+  9 __xinit__fan_on                                                000014 R
+  9 __xinit__fan_on_started_s                                      000015 R
+  9 __xinit__lfsr                                                  00001D R
+  9 __xinit__mode                                                  000013 R
+  9 __xinit__next_on_time_s                                        000019 R
+  9 __xinit__uptime_ms                                             000000 R
+  9 __xinit__uptime_s                                              000004 R
+  A _advance_mode                                                  000351 R
+  2 _btn                                                           000008 R
+  A _button_raw_level                                              000177 R
+  A _button_update_1ms                                             000187 R
+  A _clock_init                                                    000285 R
+  A _enter_mode                                                    000313 R
+  A _fan_off                                                       00010D R
+  2 _fan_on                                                        000014 R
+  A _fan_on_fn                                                     00011A R
+  2 _fan_on_started_s                                              000015 R
+  A _gpio_init                                                     000291 R
+  A _led_off_all                                                   000135 R
+  A _led_set_for_mode                                              00014D R
+  2 _lfsr                                                          00001D R
+  A _main                                                          00037E GR
+  2 _mode                                                          000013 R
+  2 _next_on_time_s                                                000019 R
+  A _rand16                                                        000054 R
+  A _rand_minutes_range_to_seconds                                 0000A4 R
+  A _schedule_next_interval                                        000236 R
+  A _tick_1ms_poll                                                 000000 R
+  A _tim4_init_1ms                                                 0002E2 R
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 2
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+  2 _uptime_ms                                                     000000 R
+  2 _uptime_s                                                      000004 R
+  A _wwdg_init                                                     0002F7 R
+  A _wwdg_service                                                  0002FF R
+    l_DATA                                                         ****** GX
+    l_INITIALIZER                                                  ****** GX
+    s_DATA                                                         ****** GX
+    s_GSINIT                                                       ****** GX
+    s_INITIALIZED                                                  ****** GX
+    s_INITIALIZER                                                  ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 3
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size      0   flags    0
+   1 DATA                                       size      0   flags    0
+   2 INITIALIZED                                size     1F   flags    0
+   3 SSEG                                       size      1   flags    0
+   4 DABS                                       size      0   flags    8
+   5 HOME                                       size      7   flags    0
+   6 GSINIT                                     size     23   flags    0
+   7 GSFINAL                                    size      3   flags    0
+   8 CONST                                      size      0   flags    0
+   9 INITIALIZER                                size     1F   flags    0
+   A CODE                                       size    4F7   flags    0
+   B CABS                                       size      0   flags    8
+

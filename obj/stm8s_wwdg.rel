@@ -1,0 +1,42 @@
+XH3
+H B areas 6 global symbols
+M stm8s_wwdg
+S .__.ABS. Def000000
+A _CODE size 0 flags 0 addr 0
+A DATA size 0 flags 0 addr 0
+A INITIALIZED size 0 flags 0 addr 0
+A DABS size 0 flags 8 addr 0
+A HOME size 0 flags 0 addr 0
+A GSINIT size 0 flags 0 addr 0
+A GSFINAL size 0 flags 0 addr 0
+A CONST size 0 flags 0 addr 0
+A INITIALIZER size 0 flags 0 addr 0
+A CODE size 2C flags 0 addr 0
+S _WWDG_SetCounter Def000015
+S _WWDG_Init Def000000
+S _WWDG_SetWindowValue Def000024
+S _WWDG_SWReset Def00001F
+S _WWDG_GetCounter Def00001B
+A CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 09
+T 00 00 00 35 7F 50 D2 AA C0 C7 50 D1 7B 03 AA 40
+R 00 00 00 09
+T 00 00 0D A4 7F C7 50 D2 85 84 FC
+R 00 00 00 09
+T 00 00 15
+R 00 00 00 09
+T 00 00 15 A4 7F C7 50 D1 81
+R 00 00 00 09
+T 00 00 1B
+R 00 00 00 09
+T 00 00 1B C6 50 D1 81
+R 00 00 00 09
+T 00 00 1F
+R 00 00 00 09
+T 00 00 1F 35 80 50 D1 81
+R 00 00 00 09
+T 00 00 24
+R 00 00 00 09
+T 00 00 24 AA 40 A4 7F C7 50 D2 81
+R 00 00 00 09

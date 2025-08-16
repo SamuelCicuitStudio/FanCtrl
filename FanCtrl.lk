@@ -1,0 +1,13 @@
+-muwx
+-i FanCtrl.ihx
+-b HOME = 0x8000
+-b DATA = 0x0001
+-k C:\Program Files\SDCC\bin\..\lib\stm8
+-l stm8
+obj/main.rel
+obj/stm8s_gpio.rel
+obj/stm8s_tim4.rel
+obj/stm8s_clk.rel
+obj/stm8s_wwdg.rel
+
+-e
