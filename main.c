@@ -169,22 +169,23 @@ static void clock_init(void) {
 }
 
 static void gpio_init(void) {
-  /* Fan gate: push-pull output, default OFF */
-  GPIO_DeInit(FAN_PORT);
+  // Deinit once at startup (optional, not per pin)
+  GPIO_DeInit(GPIOC);
+  GPIO_DeInit(GPIOD);
+  GPIO_DeInit(GPIOB);
+
+  // Fan gate
   GPIO_Init(FAN_PORT, FAN_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
 
-  /* RGB: push-pull outputs, default OFF (HIGH for common-anode) */
-  GPIO_DeInit(LED_R_PORT);
+  // RGB LED
   GPIO_Init(LED_R_PORT, LED_R_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
-  GPIO_DeInit(LED_G_PORT);
   GPIO_Init(LED_G_PORT, LED_G_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
-  GPIO_DeInit(LED_B_PORT);
   GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
 
-  /* Button input with pull-up, no interrupt */
-  GPIO_DeInit(BTN_PORT);
+  // Button
   GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_PU_NO_IT);
 }
+
 
 static void tim4_init_1ms(void) {
   /* 16 MHz / 128 = 125 kHz; ARR = 125-1 => 1 ms update */

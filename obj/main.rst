@@ -80,7 +80,7 @@
                                      80 	.area GSINIT
                                      81 	.area GSFINAL
                                      82 	.area GSINIT
-      008007 CD 8B 48         [ 4]   83 	call	___sdcc_external_startup
+      008007 CD 8B 3C         [ 4]   83 	call	___sdcc_external_startup
       00800A 4D               [ 1]   84 	tnz	a
       00800B 27 03            [ 1]   85 	jreq	__sdcc_init_data
       00800D CC 80 04         [ 2]   86 	jp	__sdcc_program_startup
@@ -110,7 +110,7 @@
                                     110 	.area HOME
                                     111 	.area HOME
       008004                        112 __sdcc_program_startup:
-      008004 CC 83 D6         [ 2]  113 	jp	_main
+      008004 CC 83 CA         [ 2]  113 	jp	_main
                                     114 ;	return from main will return to caller
                                     115 ;--------------------------------------------------------
                                     116 ; code
@@ -123,14 +123,14 @@
       008058                        123 _tick_1ms_poll:
                                     124 ;	main.c: 70: if (TIM4_GetFlagStatus(TIM4_FLAG_UPDATE) != RESET) {
       008058 A6 01            [ 1]  125 	ld	a, #0x01
-      00805A CD 86 FD         [ 4]  126 	call	_TIM4_GetFlagStatus
+      00805A CD 86 F1         [ 4]  126 	call	_TIM4_GetFlagStatus
       00805D 4D               [ 1]  127 	tnz	a
       00805E 26 01            [ 1]  128 	jrne	00121$
       008060 81               [ 4]  129 	ret
       008061                        130 00121$:
                                     131 ;	main.c: 71: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
       008061 A6 01            [ 1]  132 	ld	a, #0x01
-      008063 CD 87 0D         [ 4]  133 	call	_TIM4_ClearFlag
+      008063 CD 87 01         [ 4]  133 	call	_TIM4_ClearFlag
                                     134 ;	main.c: 72: uptime_ms++;
       008066 CE 00 03         [ 2]  135 	ldw	x, _uptime_ms+2
       008069 90 CE 00 01      [ 2]  136 	ldw	y, _uptime_ms+0
@@ -149,7 +149,7 @@
       008082 3B 00 03         [ 1]  149 	push	_uptime_ms+2
       008085 3B 00 02         [ 1]  150 	push	_uptime_ms+1
       008088 3B 00 01         [ 1]  151 	push	_uptime_ms+0
-      00808B CD 8A E2         [ 4]  152 	call	__modulong
+      00808B CD 8A D6         [ 4]  152 	call	__modulong
       00808E 5B 08            [ 2]  153 	addw	sp, #8
       008090 5D               [ 2]  154 	tnzw	x
       008091 26 04            [ 1]  155 	jrne	00123$
@@ -300,7 +300,7 @@
       008165                        300 _fan_off:
       008165 A6 10            [ 1]  301 	ld	a, #0x10
       008167 AE 50 0F         [ 2]  302 	ldw	x, #0x500f
-      00816A CD 85 E2         [ 4]  303 	call	_GPIO_WriteLow
+      00816A CD 85 D6         [ 4]  303 	call	_GPIO_WriteLow
       00816D 72 5F 00 15      [ 1]  304 	clr	_fan_on+0
       008171 81               [ 4]  305 	ret
                                     306 ;	main.c: 97: static inline void fan_on_fn(void){ GPIO_WriteHigh(FAN_PORT, FAN_PIN);  fan_on = 1; fan_on_started_s = uptime_s; }
@@ -310,7 +310,7 @@
       008172                        310 _fan_on_fn:
       008172 A6 10            [ 1]  311 	ld	a, #0x10
       008174 AE 50 0F         [ 2]  312 	ldw	x, #0x500f
-      008177 CD 85 D9         [ 4]  313 	call	_GPIO_WriteHigh
+      008177 CD 85 CD         [ 4]  313 	call	_GPIO_WriteHigh
       00817A 35 01 00 15      [ 1]  314 	mov	_fan_on+0, #0x01
       00817E CE 00 07         [ 2]  315 	ldw	x, _uptime_s+2
       008181 90 CE 00 05      [ 2]  316 	ldw	y, _uptime_s+0
@@ -325,16 +325,16 @@
                                     325 ;	main.c: 101: GPIO_WriteHigh(LED_R_PORT, LED_R_PIN);
       00818D A6 80            [ 1]  326 	ld	a, #0x80
       00818F AE 50 0A         [ 2]  327 	ldw	x, #0x500a
-      008192 CD 85 D9         [ 4]  328 	call	_GPIO_WriteHigh
+      008192 CD 85 CD         [ 4]  328 	call	_GPIO_WriteHigh
                                     329 ;	main.c: 102: GPIO_WriteHigh(LED_G_PORT, LED_G_PIN);
       008195 A6 40            [ 1]  330 	ld	a, #0x40
       008197 AE 50 0A         [ 2]  331 	ldw	x, #0x500a
-      00819A CD 85 D9         [ 4]  332 	call	_GPIO_WriteHigh
+      00819A CD 85 CD         [ 4]  332 	call	_GPIO_WriteHigh
                                     333 ;	main.c: 103: GPIO_WriteHigh(LED_B_PORT, LED_B_PIN);
       00819D A6 20            [ 1]  334 	ld	a, #0x20
       00819F AE 50 0A         [ 2]  335 	ldw	x, #0x500a
                                     336 ;	main.c: 104: }
-      0081A2 CC 85 D9         [ 2]  337 	jp	_GPIO_WriteHigh
+      0081A2 CC 85 CD         [ 2]  337 	jp	_GPIO_WriteHigh
                                     338 ;	main.c: 106: static void led_set_for_mode(mode_t m) {
                                     339 ;	-----------------------------------------
                                     340 ;	 function led_set_for_mode
@@ -356,19 +356,19 @@
       0081B7                        356 00101$:
       0081B7 A6 40            [ 1]  357 	ld	a, #0x40
       0081B9 AE 50 0A         [ 2]  358 	ldw	x, #0x500a
-      0081BC CC 85 E2         [ 2]  359 	jp	_GPIO_WriteLow
+      0081BC CC 85 D6         [ 2]  359 	jp	_GPIO_WriteLow
                                     360 ;	main.c: 110: case MODE_MID:  GPIO_WriteLow(LED_B_PORT, LED_B_PIN); break; /* Blue   */
       0081BF                        361 00102$:
       0081BF A6 20            [ 1]  362 	ld	a, #0x20
       0081C1 AE 50 0A         [ 2]  363 	ldw	x, #0x500a
-      0081C4 CC 85 E2         [ 2]  364 	jp	_GPIO_WriteLow
+      0081C4 CC 85 D6         [ 2]  364 	jp	_GPIO_WriteLow
                                     365 ;	main.c: 111: case MODE_HIGH: GPIO_WriteLow(LED_R_PORT, LED_R_PIN); break; /* Red    */
       0081C7                        366 00103$:
       0081C7 A6 80            [ 1]  367 	ld	a, #0x80
       0081C9 AE 50 0A         [ 2]  368 	ldw	x, #0x500a
                                     369 ;	main.c: 113: }
                                     370 ;	main.c: 114: }
-      0081CC CC 85 E2         [ 2]  371 	jp	_GPIO_WriteLow
+      0081CC CC 85 D6         [ 2]  371 	jp	_GPIO_WriteLow
                                     372 ;	main.c: 117: static inline uint8_t button_raw_level(void) {
                                     373 ;	-----------------------------------------
                                     374 ;	 function button_raw_level
@@ -377,7 +377,7 @@
                                     377 ;	main.c: 118: return (uint8_t)GPIO_ReadInputPin(BTN_PORT, BTN_PIN) ? 1u : 0u;
       0081CF A6 10            [ 1]  378 	ld	a, #0x10
       0081D1 AE 50 05         [ 2]  379 	ldw	x, #0x5005
-      0081D4 CD 85 FC         [ 4]  380 	call	_GPIO_ReadInputPin
+      0081D4 CD 85 F0         [ 4]  380 	call	_GPIO_ReadInputPin
       0081D7 4D               [ 1]  381 	tnz	a
       0081D8 27 03            [ 1]  382 	jreq	00103$
       0081DA A6 01            [ 1]  383 	ld	a, #0x01
@@ -395,7 +395,7 @@
                                     395 ;	main.c: 123: uint8_t raw = button_raw_level();
       0081E1 A6 10            [ 1]  396 	ld	a, #0x10
       0081E3 AE 50 05         [ 2]  397 	ldw	x, #0x5005
-      0081E6 CD 85 FC         [ 4]  398 	call	_GPIO_ReadInputPin
+      0081E6 CD 85 F0         [ 4]  398 	call	_GPIO_ReadInputPin
       0081E9 4D               [ 1]  399 	tnz	a
       0081EA 27 03            [ 1]  400 	jreq	00123$
       0081EC A6 01            [ 1]  401 	ld	a, #0x01
@@ -558,11 +558,11 @@
       0082DD                        558 _clock_init:
                                     559 ;	main.c: 167: CLK_HSIPrescalerConfig(CLK_PRESCALER_HSIDIV1);
       0082DD 4F               [ 1]  560 	clr	a
-      0082DE CD 89 0C         [ 4]  561 	call	_CLK_HSIPrescalerConfig
+      0082DE CD 89 00         [ 4]  561 	call	_CLK_HSIPrescalerConfig
                                     562 ;	main.c: 168: CLK_PeripheralClockConfig(CLK_PERIPHERAL_TIMER4, ENABLE);
       0082E1 4B 01            [ 1]  563 	push	#0x01
       0082E3 A6 04            [ 1]  564 	ld	a, #0x04
-      0082E5 CD 88 16         [ 4]  565 	call	_CLK_PeripheralClockConfig
+      0082E5 CD 88 0A         [ 4]  565 	call	_CLK_PeripheralClockConfig
                                     566 ;	main.c: 169: }
       0082E8 81               [ 4]  567 	ret
                                     568 ;	main.c: 171: static void gpio_init(void) {
@@ -570,411 +570,405 @@
                                     570 ;	 function gpio_init
                                     571 ;	-----------------------------------------
       0082E9                        572 _gpio_init:
-                                    573 ;	main.c: 173: GPIO_DeInit(FAN_PORT);
-      0082E9 AE 50 0F         [ 2]  574 	ldw	x, #0x500f
-      0082EC CD 85 4F         [ 4]  575 	call	_GPIO_DeInit
-                                    576 ;	main.c: 174: GPIO_Init(FAN_PORT, FAN_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
-      0082EF 4B E0            [ 1]  577 	push	#0xe0
-      0082F1 A6 10            [ 1]  578 	ld	a, #0x10
-      0082F3 AE 50 0F         [ 2]  579 	ldw	x, #0x500f
-      0082F6 CD 85 5C         [ 4]  580 	call	_GPIO_Init
-                                    581 ;	main.c: 177: GPIO_DeInit(LED_R_PORT);
-      0082F9 AE 50 0A         [ 2]  582 	ldw	x, #0x500a
-      0082FC CD 85 4F         [ 4]  583 	call	_GPIO_DeInit
-                                    584 ;	main.c: 178: GPIO_Init(LED_R_PORT, LED_R_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
-      0082FF 4B F0            [ 1]  585 	push	#0xf0
-      008301 A6 80            [ 1]  586 	ld	a, #0x80
-      008303 AE 50 0A         [ 2]  587 	ldw	x, #0x500a
-      008306 CD 85 5C         [ 4]  588 	call	_GPIO_Init
-                                    589 ;	main.c: 179: GPIO_DeInit(LED_G_PORT);
+                                    573 ;	main.c: 173: GPIO_DeInit(GPIOC);
+      0082E9 AE 50 0A         [ 2]  574 	ldw	x, #0x500a
+      0082EC CD 85 43         [ 4]  575 	call	_GPIO_DeInit
+                                    576 ;	main.c: 174: GPIO_DeInit(GPIOD);
+      0082EF AE 50 0F         [ 2]  577 	ldw	x, #0x500f
+      0082F2 CD 85 43         [ 4]  578 	call	_GPIO_DeInit
+                                    579 ;	main.c: 175: GPIO_DeInit(GPIOB);
+      0082F5 AE 50 05         [ 2]  580 	ldw	x, #0x5005
+      0082F8 CD 85 43         [ 4]  581 	call	_GPIO_DeInit
+                                    582 ;	main.c: 178: GPIO_Init(FAN_PORT, FAN_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+      0082FB 4B E0            [ 1]  583 	push	#0xe0
+      0082FD A6 10            [ 1]  584 	ld	a, #0x10
+      0082FF AE 50 0F         [ 2]  585 	ldw	x, #0x500f
+      008302 CD 85 50         [ 4]  586 	call	_GPIO_Init
+                                    587 ;	main.c: 181: GPIO_Init(LED_R_PORT, LED_R_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+      008305 4B F0            [ 1]  588 	push	#0xf0
+      008307 A6 80            [ 1]  589 	ld	a, #0x80
       008309 AE 50 0A         [ 2]  590 	ldw	x, #0x500a
-      00830C CD 85 4F         [ 4]  591 	call	_GPIO_DeInit
-                                    592 ;	main.c: 180: GPIO_Init(LED_G_PORT, LED_G_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+      00830C CD 85 50         [ 4]  591 	call	_GPIO_Init
+                                    592 ;	main.c: 182: GPIO_Init(LED_G_PORT, LED_G_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
       00830F 4B F0            [ 1]  593 	push	#0xf0
       008311 A6 40            [ 1]  594 	ld	a, #0x40
       008313 AE 50 0A         [ 2]  595 	ldw	x, #0x500a
-      008316 CD 85 5C         [ 4]  596 	call	_GPIO_Init
-                                    597 ;	main.c: 181: GPIO_DeInit(LED_B_PORT);
-      008319 AE 50 0A         [ 2]  598 	ldw	x, #0x500a
-      00831C CD 85 4F         [ 4]  599 	call	_GPIO_DeInit
-                                    600 ;	main.c: 182: GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
-      00831F 4B F0            [ 1]  601 	push	#0xf0
-      008321 A6 20            [ 1]  602 	ld	a, #0x20
-      008323 AE 50 0A         [ 2]  603 	ldw	x, #0x500a
-      008326 CD 85 5C         [ 4]  604 	call	_GPIO_Init
-                                    605 ;	main.c: 185: GPIO_DeInit(BTN_PORT);
-      008329 AE 50 05         [ 2]  606 	ldw	x, #0x5005
-      00832C CD 85 4F         [ 4]  607 	call	_GPIO_DeInit
-                                    608 ;	main.c: 186: GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_PU_NO_IT);
-      00832F 4B 40            [ 1]  609 	push	#0x40
-      008331 A6 10            [ 1]  610 	ld	a, #0x10
-      008333 AE 50 05         [ 2]  611 	ldw	x, #0x5005
-      008336 CD 85 5C         [ 4]  612 	call	_GPIO_Init
-                                    613 ;	main.c: 187: }
-      008339 81               [ 4]  614 	ret
-                                    615 ;	main.c: 189: static void tim4_init_1ms(void) {
-                                    616 ;	-----------------------------------------
-                                    617 ;	 function tim4_init_1ms
-                                    618 ;	-----------------------------------------
-      00833A                        619 _tim4_init_1ms:
-                                    620 ;	main.c: 191: TIM4_TimeBaseInit(TIM4_PRESCALER_128, 125 - 1);
-      00833A 4B 7C            [ 1]  621 	push	#0x7c
-      00833C A6 07            [ 1]  622 	ld	a, #0x07
-      00833E CD 86 3C         [ 4]  623 	call	_TIM4_TimeBaseInit
-                                    624 ;	main.c: 192: TIM4_SetCounter(0);
-      008341 4F               [ 1]  625 	clr	a
-      008342 CD 86 ED         [ 4]  626 	call	_TIM4_SetCounter
-                                    627 ;	main.c: 193: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
-      008345 A6 01            [ 1]  628 	ld	a, #0x01
-      008347 CD 87 0D         [ 4]  629 	call	_TIM4_ClearFlag
-                                    630 ;	main.c: 194: TIM4_Cmd(ENABLE);
-      00834A A6 01            [ 1]  631 	ld	a, #0x01
-                                    632 ;	main.c: 195: }
-      00834C CC 86 48         [ 2]  633 	jp	_TIM4_Cmd
-                                    634 ;	main.c: 197: static void wwdg_init(void) {
-                                    635 ;	-----------------------------------------
-                                    636 ;	 function wwdg_init
-                                    637 ;	-----------------------------------------
-      00834F                        638 _wwdg_init:
-                                    639 ;	main.c: 198: WWDG_Init(WWDG_START_COUNTER, WWDG_WINDOW);
-      00834F 4B 50            [ 1]  640 	push	#0x50
-      008351 A6 7F            [ 1]  641 	ld	a, #0x7f
-      008353 CD 8A B6         [ 4]  642 	call	_WWDG_Init
-                                    643 ;	main.c: 199: }
-      008356 81               [ 4]  644 	ret
-                                    645 ;	main.c: 202: static inline void wwdg_service(void) {
-                                    646 ;	-----------------------------------------
-                                    647 ;	 function wwdg_service
-                                    648 ;	-----------------------------------------
-      008357                        649 _wwdg_service:
-                                    650 ;	main.c: 203: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
-      008357 CD 8A D1         [ 4]  651 	call	_WWDG_GetCounter
-      00835A A4 7F            [ 1]  652 	and	a, #0x7f
-                                    653 ;	main.c: 204: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
-      00835C A1 50            [ 1]  654 	cp	a, #0x50
-      00835E 25 01            [ 1]  655 	jrc	00120$
-      008360 81               [ 4]  656 	ret
-      008361                        657 00120$:
-      008361 A1 44            [ 1]  658 	cp	a, #0x44
-      008363 24 01            [ 1]  659 	jrnc	00121$
-      008365 81               [ 4]  660 	ret
-      008366                        661 00121$:
-                                    662 ;	main.c: 205: WWDG_SetCounter(WWDG_START_COUNTER);
-      008366 A6 7F            [ 1]  663 	ld	a, #0x7f
-                                    664 ;	main.c: 207: }
-      008368 CC 8A CB         [ 2]  665 	jp	_WWDG_SetCounter
-                                    666 ;	main.c: 210: static void enter_mode(mode_t m) {
-                                    667 ;	-----------------------------------------
-                                    668 ;	 function enter_mode
-                                    669 ;	-----------------------------------------
-      00836B                        670 _enter_mode:
-                                    671 ;	main.c: 213: switch (mode) {
-      00836B C7 00 14         [ 1]  672 	ld	_mode+0, a
-      00836E 27 15            [ 1]  673 	jreq	00101$
-      008370 C6 00 14         [ 1]  674 	ld	a, _mode+0
-      008373 4A               [ 1]  675 	dec	a
-      008374 27 1E            [ 1]  676 	jreq	00104$
-      008376 C6 00 14         [ 1]  677 	ld	a, _mode+0
-      008379 A1 02            [ 1]  678 	cp	a, #0x02
-      00837B 27 17            [ 1]  679 	jreq	00104$
-      00837D C6 00 14         [ 1]  680 	ld	a, _mode+0
-      008380 A1 03            [ 1]  681 	cp	a, #0x03
-      008382 27 10            [ 1]  682 	jreq	00104$
-      008384 81               [ 4]  683 	ret
-                                    684 ;	main.c: 214: case MODE_OFF:
-      008385                        685 00101$:
-                                    686 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
-      008385 A6 10            [ 1]  687 	ld	a, #0x10
-      008387 AE 50 0F         [ 2]  688 	ldw	x, #0x500f
-      00838A CD 85 E2         [ 4]  689 	call	_GPIO_WriteLow
-      00838D 72 5F 00 15      [ 1]  690 	clr	_fan_on+0
-                                    691 ;	main.c: 216: led_off_all();
-                                    692 ;	main.c: 217: break;
-      008391 CC 81 8D         [ 2]  693 	jp	_led_off_all
-                                    694 ;	main.c: 221: case MODE_HIGH:
-      008394                        695 00104$:
-                                    696 ;	main.c: 223: led_set_for_mode(mode);
-      008394 C6 00 14         [ 1]  697 	ld	a, _mode+0
-      008397 CD 81 A5         [ 4]  698 	call	_led_set_for_mode
-                                    699 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
-      00839A A6 10            [ 1]  700 	ld	a, #0x10
-      00839C AE 50 0F         [ 2]  701 	ldw	x, #0x500f
-      00839F CD 85 E2         [ 4]  702 	call	_GPIO_WriteLow
-      0083A2 72 5F 00 15      [ 1]  703 	clr	_fan_on+0
-                                    704 ;	main.c: 225: schedule_next_interval();
-                                    705 ;	main.c: 227: }
-                                    706 ;	main.c: 228: }
-      0083A6 CC 82 8E         [ 2]  707 	jp	_schedule_next_interval
-                                    708 ;	main.c: 231: static void advance_mode(void) {
-                                    709 ;	-----------------------------------------
-                                    710 ;	 function advance_mode
-                                    711 ;	-----------------------------------------
-      0083A9                        712 _advance_mode:
-                                    713 ;	main.c: 232: switch (mode) {
-      0083A9 C6 00 14         [ 1]  714 	ld	a, _mode+0
-      0083AC 27 15            [ 1]  715 	jreq	00101$
-      0083AE C6 00 14         [ 1]  716 	ld	a, _mode+0
-      0083B1 4A               [ 1]  717 	dec	a
-      0083B2 27 14            [ 1]  718 	jreq	00102$
-      0083B4 C6 00 14         [ 1]  719 	ld	a, _mode+0
-      0083B7 A1 02            [ 1]  720 	cp	a, #0x02
-      0083B9 27 12            [ 1]  721 	jreq	00103$
-      0083BB C6 00 14         [ 1]  722 	ld	a, _mode+0
-      0083BE A1 03            [ 1]  723 	cp	a, #0x03
-      0083C0 27 10            [ 1]  724 	jreq	00104$
-      0083C2 81               [ 4]  725 	ret
-                                    726 ;	main.c: 233: case MODE_OFF:  enter_mode(MODE_ECO);  break;
-      0083C3                        727 00101$:
-      0083C3 A6 01            [ 1]  728 	ld	a, #0x01
-      0083C5 CC 83 6B         [ 2]  729 	jp	_enter_mode
-                                    730 ;	main.c: 234: case MODE_ECO:  enter_mode(MODE_MID);  break;
-      0083C8                        731 00102$:
-      0083C8 A6 02            [ 1]  732 	ld	a, #0x02
-      0083CA CC 83 6B         [ 2]  733 	jp	_enter_mode
-                                    734 ;	main.c: 235: case MODE_MID:  enter_mode(MODE_HIGH); break;
-      0083CD                        735 00103$:
-      0083CD A6 03            [ 1]  736 	ld	a, #0x03
-      0083CF CC 83 6B         [ 2]  737 	jp	_enter_mode
-                                    738 ;	main.c: 236: case MODE_HIGH: enter_mode(MODE_OFF);  break;
-      0083D2                        739 00104$:
-      0083D2 4F               [ 1]  740 	clr	a
-                                    741 ;	main.c: 237: }
-                                    742 ;	main.c: 238: }
-      0083D3 CC 83 6B         [ 2]  743 	jp	_enter_mode
-                                    744 ;	main.c: 241: int main(void) {
-                                    745 ;	-----------------------------------------
-                                    746 ;	 function main
-                                    747 ;	-----------------------------------------
-      0083D6                        748 _main:
-      0083D6 52 04            [ 2]  749 	sub	sp, #4
-                                    750 ;	main.c: 242: clock_init();
-      0083D8 CD 82 DD         [ 4]  751 	call	_clock_init
-                                    752 ;	main.c: 243: gpio_init();
-      0083DB CD 82 E9         [ 4]  753 	call	_gpio_init
-                                    754 ;	main.c: 244: tim4_init_1ms();
-      0083DE CD 83 3A         [ 4]  755 	call	_tim4_init_1ms
-                                    756 ;	main.c: 245: wwdg_init();
-      0083E1 CD 83 4F         [ 4]  757 	call	_wwdg_init
-                                    758 ;	main.c: 248: enter_mode(MODE_OFF);
-      0083E4 4F               [ 1]  759 	clr	a
-      0083E5 CD 83 6B         [ 4]  760 	call	_enter_mode
-                                    761 ;	main.c: 251: lfsr ^= (uint16_t)TIM4->CNTR;
-      0083E8 C6 53 46         [ 1]  762 	ld	a, 0x5346
-      0083EB C8 00 1F         [ 1]  763 	xor	a, _lfsr+1
-      0083EE 97               [ 1]  764 	ld	xl, a
-      0083EF 4F               [ 1]  765 	clr	a
-      0083F0 C8 00 1E         [ 1]  766 	xor	a, _lfsr+0
-      0083F3 95               [ 1]  767 	ld	xh, a
-      0083F4 CF 00 1E         [ 2]  768 	ldw	_lfsr+0, x
-                                    769 ;	main.c: 253: uint32_t last_ms = 0;
-      0083F7 5F               [ 1]  770 	clrw	x
-      0083F8 1F 03            [ 2]  771 	ldw	(0x03, sp), x
-      0083FA 1F 01            [ 2]  772 	ldw	(0x01, sp), x
-      0083FC                        773 00137$:
-                                    774 ;	main.c: 70: if (TIM4_GetFlagStatus(TIM4_FLAG_UPDATE) != RESET) {
-      0083FC A6 01            [ 1]  775 	ld	a, #0x01
-      0083FE CD 86 FD         [ 4]  776 	call	_TIM4_GetFlagStatus
-      008401 4D               [ 1]  777 	tnz	a
-      008402 27 49            [ 1]  778 	jreq	00129$
-                                    779 ;	main.c: 71: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
-      008404 A6 01            [ 1]  780 	ld	a, #0x01
-      008406 CD 87 0D         [ 4]  781 	call	_TIM4_ClearFlag
-                                    782 ;	main.c: 72: uptime_ms++;
-      008409 CE 00 03         [ 2]  783 	ldw	x, _uptime_ms+2
-      00840C 90 CE 00 01      [ 2]  784 	ldw	y, _uptime_ms+0
-      008410 5C               [ 1]  785 	incw	x
-      008411 26 02            [ 1]  786 	jrne	00247$
-      008413 90 5C            [ 1]  787 	incw	y
-      008415                        788 00247$:
-      008415 CF 00 03         [ 2]  789 	ldw	_uptime_ms+2, x
-      008418 90 CF 00 01      [ 2]  790 	ldw	_uptime_ms+0, y
-                                    791 ;	main.c: 73: if ((uptime_ms % MS_PER_SEC) == 0u) {
-      00841C 4B E8            [ 1]  792 	push	#0xe8
-      00841E 4B 03            [ 1]  793 	push	#0x03
-      008420 5F               [ 1]  794 	clrw	x
-      008421 89               [ 2]  795 	pushw	x
-      008422 3B 00 04         [ 1]  796 	push	_uptime_ms+3
-      008425 3B 00 03         [ 1]  797 	push	_uptime_ms+2
-      008428 3B 00 02         [ 1]  798 	push	_uptime_ms+1
-      00842B 3B 00 01         [ 1]  799 	push	_uptime_ms+0
-      00842E CD 8A E2         [ 4]  800 	call	__modulong
-      008431 5B 08            [ 2]  801 	addw	sp, #8
-      008433 5D               [ 2]  802 	tnzw	x
-      008434 26 17            [ 1]  803 	jrne	00129$
-      008436 90 5D            [ 2]  804 	tnzw	y
-      008438 26 13            [ 1]  805 	jrne	00129$
-                                    806 ;	main.c: 74: uptime_s++;
-      00843A CE 00 07         [ 2]  807 	ldw	x, _uptime_s+2
-      00843D 90 CE 00 05      [ 2]  808 	ldw	y, _uptime_s+0
-      008441 5C               [ 1]  809 	incw	x
-      008442 26 02            [ 1]  810 	jrne	00250$
-      008444 90 5C            [ 1]  811 	incw	y
-      008446                        812 00250$:
-      008446 CF 00 07         [ 2]  813 	ldw	_uptime_s+2, x
-      008449 90 CF 00 05      [ 2]  814 	ldw	_uptime_s+0, y
-                                    815 ;	main.c: 257: tick_1ms_poll();
-      00844D                        816 00129$:
-                                    817 ;	main.c: 260: if (uptime_ms != last_ms) {
-      00844D 1E 03            [ 2]  818 	ldw	x, (0x03, sp)
-      00844F C3 00 03         [ 2]  819 	cpw	x, _uptime_ms+2
-      008452 26 0A            [ 1]  820 	jrne	00252$
-      008454 1E 01            [ 2]  821 	ldw	x, (0x01, sp)
-      008456 C3 00 01         [ 2]  822 	cpw	x, _uptime_ms+0
-      008459 26 03            [ 1]  823 	jrne	00252$
-      00845B CC 85 34         [ 2]  824 	jp	00123$
-      00845E                        825 00252$:
-                                    826 ;	main.c: 261: last_ms = uptime_ms;
-      00845E CE 00 03         [ 2]  827 	ldw	x, _uptime_ms+2
-      008461 1F 03            [ 2]  828 	ldw	(0x03, sp), x
-      008463 CE 00 01         [ 2]  829 	ldw	x, _uptime_ms+0
-      008466 1F 01            [ 2]  830 	ldw	(0x01, sp), x
-                                    831 ;	main.c: 264: button_update_1ms();
-      008468 CD 81 DF         [ 4]  832 	call	_button_update_1ms
-                                    833 ;	main.c: 267: if (btn.long_event) {
-      00846B C6 00 13         [ 1]  834 	ld	a, _btn+10
-      00846E 27 0A            [ 1]  835 	jreq	00104$
-                                    836 ;	main.c: 268: btn.long_event = 0u;
-      008470 35 00 00 13      [ 1]  837 	mov	_btn+10, #0x00
-                                    838 ;	main.c: 269: enter_mode(MODE_OFF);                 /* Long press => OFF */
-      008474 4F               [ 1]  839 	clr	a
-      008475 CD 83 6B         [ 4]  840 	call	_enter_mode
-      008478 20 0C            [ 2]  841 	jra	00105$
-      00847A                        842 00104$:
-                                    843 ;	main.c: 270: } else if (btn.short_event) {
-      00847A C6 00 12         [ 1]  844 	ld	a, _btn+9
-      00847D 27 07            [ 1]  845 	jreq	00105$
-                                    846 ;	main.c: 271: btn.short_event = 0u;
-      00847F 35 00 00 12      [ 1]  847 	mov	_btn+9, #0x00
-                                    848 ;	main.c: 272: advance_mode();                        /* Short press => next mode, LED updates immediately */
-      008483 CD 83 A9         [ 4]  849 	call	_advance_mode
-      008486                        850 00105$:
-                                    851 ;	main.c: 276: if ((uptime_ms % MS_PER_SEC) == 0u) {
-      008486 4B E8            [ 1]  852 	push	#0xe8
-      008488 4B 03            [ 1]  853 	push	#0x03
-      00848A 5F               [ 1]  854 	clrw	x
-      00848B 89               [ 2]  855 	pushw	x
-      00848C 3B 00 04         [ 1]  856 	push	_uptime_ms+3
-      00848F 3B 00 03         [ 1]  857 	push	_uptime_ms+2
-      008492 3B 00 02         [ 1]  858 	push	_uptime_ms+1
-      008495 3B 00 01         [ 1]  859 	push	_uptime_ms+0
-      008498 CD 8A E2         [ 4]  860 	call	__modulong
-      00849B 5B 08            [ 2]  861 	addw	sp, #8
-      00849D 5D               [ 2]  862 	tnzw	x
-      00849E 26 04            [ 1]  863 	jrne	00256$
-      0084A0 90 5D            [ 2]  864 	tnzw	y
-      0084A2 27 03            [ 1]  865 	jreq	00257$
-      0084A4                        866 00256$:
-      0084A4 CC 85 34         [ 2]  867 	jp	00123$
-      0084A7                        868 00257$:
-                                    869 ;	main.c: 277: if (mode == MODE_ECO || mode == MODE_MID || mode == MODE_HIGH) {
-      0084A7 C6 00 14         [ 1]  870 	ld	a, _mode+0
-      0084AA 4A               [ 1]  871 	dec	a
-      0084AB 27 0E            [ 1]  872 	jreq	00115$
-      0084AD C6 00 14         [ 1]  873 	ld	a, _mode+0
-      0084B0 A1 02            [ 1]  874 	cp	a, #0x02
-      0084B2 27 07            [ 1]  875 	jreq	00115$
-      0084B4 C6 00 14         [ 1]  876 	ld	a, _mode+0
-      0084B7 A1 03            [ 1]  877 	cp	a, #0x03
-      0084B9 26 68            [ 1]  878 	jrne	00116$
-      0084BB                        879 00115$:
-                                    880 ;	main.c: 278: if (fan_on) {
-      0084BB C6 00 15         [ 1]  881 	ld	a, _fan_on+0
-      0084BE 27 33            [ 1]  882 	jreq	00111$
-                                    883 ;	main.c: 280: if ((uptime_s - fan_on_started_s) >= FAN_ON_DURATION_S) {
-      0084C0 CE 00 07         [ 2]  884 	ldw	x, _uptime_s+2
-      0084C3 72 B0 00 18      [ 2]  885 	subw	x, _fan_on_started_s+2
-      0084C7 C6 00 06         [ 1]  886 	ld	a, _uptime_s+1
-      0084CA C2 00 17         [ 1]  887 	sbc	a, _fan_on_started_s+1
-      0084CD 90 97            [ 1]  888 	ld	yl, a
-      0084CF C6 00 05         [ 1]  889 	ld	a, _uptime_s+0
-      0084D2 C2 00 16         [ 1]  890 	sbc	a, _fan_on_started_s+0
-      0084D5 88               [ 1]  891 	push	a
-      0084D6 A3 01 2C         [ 2]  892 	cpw	x, #0x012c
-      0084D9 90 9F            [ 1]  893 	ld	a, yl
-      0084DB A2 00            [ 1]  894 	sbc	a, #0x00
-      0084DD 84               [ 1]  895 	pop	a
-      0084DE A2 00            [ 1]  896 	sbc	a, #0x00
-      0084E0 25 52            [ 1]  897 	jrc	00123$
-                                    898 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
-      0084E2 A6 10            [ 1]  899 	ld	a, #0x10
-      0084E4 AE 50 0F         [ 2]  900 	ldw	x, #0x500f
-      0084E7 CD 85 E2         [ 4]  901 	call	_GPIO_WriteLow
-      0084EA 72 5F 00 15      [ 1]  902 	clr	_fan_on+0
-                                    903 ;	main.c: 282: schedule_next_interval();        /* pick new jitter for the next interval */
-      0084EE CD 82 8E         [ 4]  904 	call	_schedule_next_interval
-      0084F1 20 41            [ 2]  905 	jra	00123$
-      0084F3                        906 00111$:
-                                    907 ;	main.c: 286: if (uptime_s >= next_on_time_s) {
-      0084F3 CE 00 07         [ 2]  908 	ldw	x, _uptime_s+2
-      0084F6 C3 00 1C         [ 2]  909 	cpw	x, _next_on_time_s+2
-      0084F9 C6 00 06         [ 1]  910 	ld	a, _uptime_s+1
-      0084FC C2 00 1B         [ 1]  911 	sbc	a, _next_on_time_s+1
-      0084FF C6 00 05         [ 1]  912 	ld	a, _uptime_s+0
-      008502 C2 00 1A         [ 1]  913 	sbc	a, _next_on_time_s+0
-      008505 25 2D            [ 1]  914 	jrc	00123$
-                                    915 ;	main.c: 97: static inline void fan_on_fn(void){ GPIO_WriteHigh(FAN_PORT, FAN_PIN);  fan_on = 1; fan_on_started_s = uptime_s; }
-      008507 A6 10            [ 1]  916 	ld	a, #0x10
-      008509 AE 50 0F         [ 2]  917 	ldw	x, #0x500f
-      00850C CD 85 D9         [ 4]  918 	call	_GPIO_WriteHigh
-      00850F 35 01 00 15      [ 1]  919 	mov	_fan_on+0, #0x01
-      008513 CE 00 07         [ 2]  920 	ldw	x, _uptime_s+2
-      008516 90 CE 00 05      [ 2]  921 	ldw	y, _uptime_s+0
-      00851A CF 00 18         [ 2]  922 	ldw	_fan_on_started_s+2, x
-      00851D 90 CF 00 16      [ 2]  923 	ldw	_fan_on_started_s+0, y
-                                    924 ;	main.c: 287: fan_on_fn();
-      008521 20 11            [ 2]  925 	jra	00123$
-      008523                        926 00116$:
-                                    927 ;	main.c: 292: if (fan_on) fan_off();
-      008523 C6 00 15         [ 1]  928 	ld	a, _fan_on+0
-      008526 27 0C            [ 1]  929 	jreq	00123$
-                                    930 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
-      008528 A6 10            [ 1]  931 	ld	a, #0x10
-      00852A AE 50 0F         [ 2]  932 	ldw	x, #0x500f
-      00852D CD 85 E2         [ 4]  933 	call	_GPIO_WriteLow
-      008530 72 5F 00 15      [ 1]  934 	clr	_fan_on+0
-                                    935 ;	main.c: 292: if (fan_on) fan_off();
-      008534                        936 00123$:
-                                    937 ;	main.c: 203: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
-      008534 CD 8A D1         [ 4]  938 	call	_WWDG_GetCounter
-      008537 A4 7F            [ 1]  939 	and	a, #0x7f
-                                    940 ;	main.c: 204: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
-      008539 A1 50            [ 1]  941 	cp	a, #0x50
-      00853B 25 03            [ 1]  942 	jrc	00271$
-      00853D CC 83 FC         [ 2]  943 	jp	00137$
-      008540                        944 00271$:
-      008540 A1 44            [ 1]  945 	cp	a, #0x44
-      008542 24 03            [ 1]  946 	jrnc	00272$
-      008544 CC 83 FC         [ 2]  947 	jp	00137$
-      008547                        948 00272$:
-                                    949 ;	main.c: 205: WWDG_SetCounter(WWDG_START_COUNTER);
-      008547 A6 7F            [ 1]  950 	ld	a, #0x7f
-      008549 CD 8A CB         [ 4]  951 	call	_WWDG_SetCounter
-                                    952 ;	main.c: 298: wwdg_service();
-                                    953 ;	main.c: 300: }
-      00854C CC 83 FC         [ 2]  954 	jp	00137$
-                                    955 	.area CODE
-                                    956 	.area CONST
-                                    957 	.area INITIALIZER
-      008039                        958 __xinit__uptime_ms:
-      008039 00 00 00 00            959 	.byte #0x00, #0x00, #0x00, #0x00	; 0
-      00803D                        960 __xinit__uptime_s:
-      00803D 00 00 00 00            961 	.byte #0x00, #0x00, #0x00, #0x00	; 0
-      008041                        962 __xinit__btn:
-      008041 01                     963 	.db #0x01	; 1
-      008042 01                     964 	.db #0x01	; 1
-      008043 00 00                  965 	.dw #0x0000
-      008045 00                     966 	.db #0x00	; 0
-      008046 00 00 00 00            967 	.byte #0x00, #0x00, #0x00, #0x00	; 0
-      00804A 00                     968 	.db #0x00	; 0
-      00804B 00                     969 	.db #0x00	; 0
-      00804C                        970 __xinit__mode:
-      00804C 00                     971 	.db #0x00	; 0
-      00804D                        972 __xinit__fan_on:
-      00804D 00                     973 	.db #0x00	; 0
-      00804E                        974 __xinit__fan_on_started_s:
-      00804E 00 00 00 00            975 	.byte #0x00, #0x00, #0x00, #0x00	; 0
-      008052                        976 __xinit__next_on_time_s:
-      008052 00 00 00 00            977 	.byte #0x00, #0x00, #0x00, #0x00	; 0
-      008056                        978 __xinit__lfsr:
-      008056 AC E1                  979 	.dw #0xace1
-                                    980 	.area CABS (ABS)
+      008316 CD 85 50         [ 4]  596 	call	_GPIO_Init
+                                    597 ;	main.c: 183: GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+      008319 4B F0            [ 1]  598 	push	#0xf0
+      00831B A6 20            [ 1]  599 	ld	a, #0x20
+      00831D AE 50 0A         [ 2]  600 	ldw	x, #0x500a
+      008320 CD 85 50         [ 4]  601 	call	_GPIO_Init
+                                    602 ;	main.c: 186: GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_PU_NO_IT);
+      008323 4B 40            [ 1]  603 	push	#0x40
+      008325 A6 10            [ 1]  604 	ld	a, #0x10
+      008327 AE 50 05         [ 2]  605 	ldw	x, #0x5005
+      00832A CD 85 50         [ 4]  606 	call	_GPIO_Init
+                                    607 ;	main.c: 187: }
+      00832D 81               [ 4]  608 	ret
+                                    609 ;	main.c: 190: static void tim4_init_1ms(void) {
+                                    610 ;	-----------------------------------------
+                                    611 ;	 function tim4_init_1ms
+                                    612 ;	-----------------------------------------
+      00832E                        613 _tim4_init_1ms:
+                                    614 ;	main.c: 192: TIM4_TimeBaseInit(TIM4_PRESCALER_128, 125 - 1);
+      00832E 4B 7C            [ 1]  615 	push	#0x7c
+      008330 A6 07            [ 1]  616 	ld	a, #0x07
+      008332 CD 86 30         [ 4]  617 	call	_TIM4_TimeBaseInit
+                                    618 ;	main.c: 193: TIM4_SetCounter(0);
+      008335 4F               [ 1]  619 	clr	a
+      008336 CD 86 E1         [ 4]  620 	call	_TIM4_SetCounter
+                                    621 ;	main.c: 194: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+      008339 A6 01            [ 1]  622 	ld	a, #0x01
+      00833B CD 87 01         [ 4]  623 	call	_TIM4_ClearFlag
+                                    624 ;	main.c: 195: TIM4_Cmd(ENABLE);
+      00833E A6 01            [ 1]  625 	ld	a, #0x01
+                                    626 ;	main.c: 196: }
+      008340 CC 86 3C         [ 2]  627 	jp	_TIM4_Cmd
+                                    628 ;	main.c: 198: static void wwdg_init(void) {
+                                    629 ;	-----------------------------------------
+                                    630 ;	 function wwdg_init
+                                    631 ;	-----------------------------------------
+      008343                        632 _wwdg_init:
+                                    633 ;	main.c: 199: WWDG_Init(WWDG_START_COUNTER, WWDG_WINDOW);
+      008343 4B 50            [ 1]  634 	push	#0x50
+      008345 A6 7F            [ 1]  635 	ld	a, #0x7f
+      008347 CD 8A AA         [ 4]  636 	call	_WWDG_Init
+                                    637 ;	main.c: 200: }
+      00834A 81               [ 4]  638 	ret
+                                    639 ;	main.c: 203: static inline void wwdg_service(void) {
+                                    640 ;	-----------------------------------------
+                                    641 ;	 function wwdg_service
+                                    642 ;	-----------------------------------------
+      00834B                        643 _wwdg_service:
+                                    644 ;	main.c: 204: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
+      00834B CD 8A C5         [ 4]  645 	call	_WWDG_GetCounter
+      00834E A4 7F            [ 1]  646 	and	a, #0x7f
+                                    647 ;	main.c: 205: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
+      008350 A1 50            [ 1]  648 	cp	a, #0x50
+      008352 25 01            [ 1]  649 	jrc	00120$
+      008354 81               [ 4]  650 	ret
+      008355                        651 00120$:
+      008355 A1 44            [ 1]  652 	cp	a, #0x44
+      008357 24 01            [ 1]  653 	jrnc	00121$
+      008359 81               [ 4]  654 	ret
+      00835A                        655 00121$:
+                                    656 ;	main.c: 206: WWDG_SetCounter(WWDG_START_COUNTER);
+      00835A A6 7F            [ 1]  657 	ld	a, #0x7f
+                                    658 ;	main.c: 208: }
+      00835C CC 8A BF         [ 2]  659 	jp	_WWDG_SetCounter
+                                    660 ;	main.c: 211: static void enter_mode(mode_t m) {
+                                    661 ;	-----------------------------------------
+                                    662 ;	 function enter_mode
+                                    663 ;	-----------------------------------------
+      00835F                        664 _enter_mode:
+                                    665 ;	main.c: 214: switch (mode) {
+      00835F C7 00 14         [ 1]  666 	ld	_mode+0, a
+      008362 27 15            [ 1]  667 	jreq	00101$
+      008364 C6 00 14         [ 1]  668 	ld	a, _mode+0
+      008367 4A               [ 1]  669 	dec	a
+      008368 27 1E            [ 1]  670 	jreq	00104$
+      00836A C6 00 14         [ 1]  671 	ld	a, _mode+0
+      00836D A1 02            [ 1]  672 	cp	a, #0x02
+      00836F 27 17            [ 1]  673 	jreq	00104$
+      008371 C6 00 14         [ 1]  674 	ld	a, _mode+0
+      008374 A1 03            [ 1]  675 	cp	a, #0x03
+      008376 27 10            [ 1]  676 	jreq	00104$
+      008378 81               [ 4]  677 	ret
+                                    678 ;	main.c: 215: case MODE_OFF:
+      008379                        679 00101$:
+                                    680 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
+      008379 A6 10            [ 1]  681 	ld	a, #0x10
+      00837B AE 50 0F         [ 2]  682 	ldw	x, #0x500f
+      00837E CD 85 D6         [ 4]  683 	call	_GPIO_WriteLow
+      008381 72 5F 00 15      [ 1]  684 	clr	_fan_on+0
+                                    685 ;	main.c: 217: led_off_all();
+                                    686 ;	main.c: 218: break;
+      008385 CC 81 8D         [ 2]  687 	jp	_led_off_all
+                                    688 ;	main.c: 222: case MODE_HIGH:
+      008388                        689 00104$:
+                                    690 ;	main.c: 224: led_set_for_mode(mode);
+      008388 C6 00 14         [ 1]  691 	ld	a, _mode+0
+      00838B CD 81 A5         [ 4]  692 	call	_led_set_for_mode
+                                    693 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
+      00838E A6 10            [ 1]  694 	ld	a, #0x10
+      008390 AE 50 0F         [ 2]  695 	ldw	x, #0x500f
+      008393 CD 85 D6         [ 4]  696 	call	_GPIO_WriteLow
+      008396 72 5F 00 15      [ 1]  697 	clr	_fan_on+0
+                                    698 ;	main.c: 226: schedule_next_interval();
+                                    699 ;	main.c: 228: }
+                                    700 ;	main.c: 229: }
+      00839A CC 82 8E         [ 2]  701 	jp	_schedule_next_interval
+                                    702 ;	main.c: 232: static void advance_mode(void) {
+                                    703 ;	-----------------------------------------
+                                    704 ;	 function advance_mode
+                                    705 ;	-----------------------------------------
+      00839D                        706 _advance_mode:
+                                    707 ;	main.c: 233: switch (mode) {
+      00839D C6 00 14         [ 1]  708 	ld	a, _mode+0
+      0083A0 27 15            [ 1]  709 	jreq	00101$
+      0083A2 C6 00 14         [ 1]  710 	ld	a, _mode+0
+      0083A5 4A               [ 1]  711 	dec	a
+      0083A6 27 14            [ 1]  712 	jreq	00102$
+      0083A8 C6 00 14         [ 1]  713 	ld	a, _mode+0
+      0083AB A1 02            [ 1]  714 	cp	a, #0x02
+      0083AD 27 12            [ 1]  715 	jreq	00103$
+      0083AF C6 00 14         [ 1]  716 	ld	a, _mode+0
+      0083B2 A1 03            [ 1]  717 	cp	a, #0x03
+      0083B4 27 10            [ 1]  718 	jreq	00104$
+      0083B6 81               [ 4]  719 	ret
+                                    720 ;	main.c: 234: case MODE_OFF:  enter_mode(MODE_ECO);  break;
+      0083B7                        721 00101$:
+      0083B7 A6 01            [ 1]  722 	ld	a, #0x01
+      0083B9 CC 83 5F         [ 2]  723 	jp	_enter_mode
+                                    724 ;	main.c: 235: case MODE_ECO:  enter_mode(MODE_MID);  break;
+      0083BC                        725 00102$:
+      0083BC A6 02            [ 1]  726 	ld	a, #0x02
+      0083BE CC 83 5F         [ 2]  727 	jp	_enter_mode
+                                    728 ;	main.c: 236: case MODE_MID:  enter_mode(MODE_HIGH); break;
+      0083C1                        729 00103$:
+      0083C1 A6 03            [ 1]  730 	ld	a, #0x03
+      0083C3 CC 83 5F         [ 2]  731 	jp	_enter_mode
+                                    732 ;	main.c: 237: case MODE_HIGH: enter_mode(MODE_OFF);  break;
+      0083C6                        733 00104$:
+      0083C6 4F               [ 1]  734 	clr	a
+                                    735 ;	main.c: 238: }
+                                    736 ;	main.c: 239: }
+      0083C7 CC 83 5F         [ 2]  737 	jp	_enter_mode
+                                    738 ;	main.c: 242: int main(void) {
+                                    739 ;	-----------------------------------------
+                                    740 ;	 function main
+                                    741 ;	-----------------------------------------
+      0083CA                        742 _main:
+      0083CA 52 04            [ 2]  743 	sub	sp, #4
+                                    744 ;	main.c: 243: clock_init();
+      0083CC CD 82 DD         [ 4]  745 	call	_clock_init
+                                    746 ;	main.c: 244: gpio_init();
+      0083CF CD 82 E9         [ 4]  747 	call	_gpio_init
+                                    748 ;	main.c: 245: tim4_init_1ms();
+      0083D2 CD 83 2E         [ 4]  749 	call	_tim4_init_1ms
+                                    750 ;	main.c: 246: wwdg_init();
+      0083D5 CD 83 43         [ 4]  751 	call	_wwdg_init
+                                    752 ;	main.c: 249: enter_mode(MODE_OFF);
+      0083D8 4F               [ 1]  753 	clr	a
+      0083D9 CD 83 5F         [ 4]  754 	call	_enter_mode
+                                    755 ;	main.c: 252: lfsr ^= (uint16_t)TIM4->CNTR;
+      0083DC C6 53 46         [ 1]  756 	ld	a, 0x5346
+      0083DF C8 00 1F         [ 1]  757 	xor	a, _lfsr+1
+      0083E2 97               [ 1]  758 	ld	xl, a
+      0083E3 4F               [ 1]  759 	clr	a
+      0083E4 C8 00 1E         [ 1]  760 	xor	a, _lfsr+0
+      0083E7 95               [ 1]  761 	ld	xh, a
+      0083E8 CF 00 1E         [ 2]  762 	ldw	_lfsr+0, x
+                                    763 ;	main.c: 254: uint32_t last_ms = 0;
+      0083EB 5F               [ 1]  764 	clrw	x
+      0083EC 1F 03            [ 2]  765 	ldw	(0x03, sp), x
+      0083EE 1F 01            [ 2]  766 	ldw	(0x01, sp), x
+      0083F0                        767 00137$:
+                                    768 ;	main.c: 70: if (TIM4_GetFlagStatus(TIM4_FLAG_UPDATE) != RESET) {
+      0083F0 A6 01            [ 1]  769 	ld	a, #0x01
+      0083F2 CD 86 F1         [ 4]  770 	call	_TIM4_GetFlagStatus
+      0083F5 4D               [ 1]  771 	tnz	a
+      0083F6 27 49            [ 1]  772 	jreq	00129$
+                                    773 ;	main.c: 71: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+      0083F8 A6 01            [ 1]  774 	ld	a, #0x01
+      0083FA CD 87 01         [ 4]  775 	call	_TIM4_ClearFlag
+                                    776 ;	main.c: 72: uptime_ms++;
+      0083FD CE 00 03         [ 2]  777 	ldw	x, _uptime_ms+2
+      008400 90 CE 00 01      [ 2]  778 	ldw	y, _uptime_ms+0
+      008404 5C               [ 1]  779 	incw	x
+      008405 26 02            [ 1]  780 	jrne	00247$
+      008407 90 5C            [ 1]  781 	incw	y
+      008409                        782 00247$:
+      008409 CF 00 03         [ 2]  783 	ldw	_uptime_ms+2, x
+      00840C 90 CF 00 01      [ 2]  784 	ldw	_uptime_ms+0, y
+                                    785 ;	main.c: 73: if ((uptime_ms % MS_PER_SEC) == 0u) {
+      008410 4B E8            [ 1]  786 	push	#0xe8
+      008412 4B 03            [ 1]  787 	push	#0x03
+      008414 5F               [ 1]  788 	clrw	x
+      008415 89               [ 2]  789 	pushw	x
+      008416 3B 00 04         [ 1]  790 	push	_uptime_ms+3
+      008419 3B 00 03         [ 1]  791 	push	_uptime_ms+2
+      00841C 3B 00 02         [ 1]  792 	push	_uptime_ms+1
+      00841F 3B 00 01         [ 1]  793 	push	_uptime_ms+0
+      008422 CD 8A D6         [ 4]  794 	call	__modulong
+      008425 5B 08            [ 2]  795 	addw	sp, #8
+      008427 5D               [ 2]  796 	tnzw	x
+      008428 26 17            [ 1]  797 	jrne	00129$
+      00842A 90 5D            [ 2]  798 	tnzw	y
+      00842C 26 13            [ 1]  799 	jrne	00129$
+                                    800 ;	main.c: 74: uptime_s++;
+      00842E CE 00 07         [ 2]  801 	ldw	x, _uptime_s+2
+      008431 90 CE 00 05      [ 2]  802 	ldw	y, _uptime_s+0
+      008435 5C               [ 1]  803 	incw	x
+      008436 26 02            [ 1]  804 	jrne	00250$
+      008438 90 5C            [ 1]  805 	incw	y
+      00843A                        806 00250$:
+      00843A CF 00 07         [ 2]  807 	ldw	_uptime_s+2, x
+      00843D 90 CF 00 05      [ 2]  808 	ldw	_uptime_s+0, y
+                                    809 ;	main.c: 258: tick_1ms_poll();
+      008441                        810 00129$:
+                                    811 ;	main.c: 261: if (uptime_ms != last_ms) {
+      008441 1E 03            [ 2]  812 	ldw	x, (0x03, sp)
+      008443 C3 00 03         [ 2]  813 	cpw	x, _uptime_ms+2
+      008446 26 0A            [ 1]  814 	jrne	00252$
+      008448 1E 01            [ 2]  815 	ldw	x, (0x01, sp)
+      00844A C3 00 01         [ 2]  816 	cpw	x, _uptime_ms+0
+      00844D 26 03            [ 1]  817 	jrne	00252$
+      00844F CC 85 28         [ 2]  818 	jp	00123$
+      008452                        819 00252$:
+                                    820 ;	main.c: 262: last_ms = uptime_ms;
+      008452 CE 00 03         [ 2]  821 	ldw	x, _uptime_ms+2
+      008455 1F 03            [ 2]  822 	ldw	(0x03, sp), x
+      008457 CE 00 01         [ 2]  823 	ldw	x, _uptime_ms+0
+      00845A 1F 01            [ 2]  824 	ldw	(0x01, sp), x
+                                    825 ;	main.c: 265: button_update_1ms();
+      00845C CD 81 DF         [ 4]  826 	call	_button_update_1ms
+                                    827 ;	main.c: 268: if (btn.long_event) {
+      00845F C6 00 13         [ 1]  828 	ld	a, _btn+10
+      008462 27 0A            [ 1]  829 	jreq	00104$
+                                    830 ;	main.c: 269: btn.long_event = 0u;
+      008464 35 00 00 13      [ 1]  831 	mov	_btn+10, #0x00
+                                    832 ;	main.c: 270: enter_mode(MODE_OFF);                 /* Long press => OFF */
+      008468 4F               [ 1]  833 	clr	a
+      008469 CD 83 5F         [ 4]  834 	call	_enter_mode
+      00846C 20 0C            [ 2]  835 	jra	00105$
+      00846E                        836 00104$:
+                                    837 ;	main.c: 271: } else if (btn.short_event) {
+      00846E C6 00 12         [ 1]  838 	ld	a, _btn+9
+      008471 27 07            [ 1]  839 	jreq	00105$
+                                    840 ;	main.c: 272: btn.short_event = 0u;
+      008473 35 00 00 12      [ 1]  841 	mov	_btn+9, #0x00
+                                    842 ;	main.c: 273: advance_mode();                        /* Short press => next mode, LED updates immediately */
+      008477 CD 83 9D         [ 4]  843 	call	_advance_mode
+      00847A                        844 00105$:
+                                    845 ;	main.c: 277: if ((uptime_ms % MS_PER_SEC) == 0u) {
+      00847A 4B E8            [ 1]  846 	push	#0xe8
+      00847C 4B 03            [ 1]  847 	push	#0x03
+      00847E 5F               [ 1]  848 	clrw	x
+      00847F 89               [ 2]  849 	pushw	x
+      008480 3B 00 04         [ 1]  850 	push	_uptime_ms+3
+      008483 3B 00 03         [ 1]  851 	push	_uptime_ms+2
+      008486 3B 00 02         [ 1]  852 	push	_uptime_ms+1
+      008489 3B 00 01         [ 1]  853 	push	_uptime_ms+0
+      00848C CD 8A D6         [ 4]  854 	call	__modulong
+      00848F 5B 08            [ 2]  855 	addw	sp, #8
+      008491 5D               [ 2]  856 	tnzw	x
+      008492 26 04            [ 1]  857 	jrne	00256$
+      008494 90 5D            [ 2]  858 	tnzw	y
+      008496 27 03            [ 1]  859 	jreq	00257$
+      008498                        860 00256$:
+      008498 CC 85 28         [ 2]  861 	jp	00123$
+      00849B                        862 00257$:
+                                    863 ;	main.c: 278: if (mode == MODE_ECO || mode == MODE_MID || mode == MODE_HIGH) {
+      00849B C6 00 14         [ 1]  864 	ld	a, _mode+0
+      00849E 4A               [ 1]  865 	dec	a
+      00849F 27 0E            [ 1]  866 	jreq	00115$
+      0084A1 C6 00 14         [ 1]  867 	ld	a, _mode+0
+      0084A4 A1 02            [ 1]  868 	cp	a, #0x02
+      0084A6 27 07            [ 1]  869 	jreq	00115$
+      0084A8 C6 00 14         [ 1]  870 	ld	a, _mode+0
+      0084AB A1 03            [ 1]  871 	cp	a, #0x03
+      0084AD 26 68            [ 1]  872 	jrne	00116$
+      0084AF                        873 00115$:
+                                    874 ;	main.c: 279: if (fan_on) {
+      0084AF C6 00 15         [ 1]  875 	ld	a, _fan_on+0
+      0084B2 27 33            [ 1]  876 	jreq	00111$
+                                    877 ;	main.c: 281: if ((uptime_s - fan_on_started_s) >= FAN_ON_DURATION_S) {
+      0084B4 CE 00 07         [ 2]  878 	ldw	x, _uptime_s+2
+      0084B7 72 B0 00 18      [ 2]  879 	subw	x, _fan_on_started_s+2
+      0084BB C6 00 06         [ 1]  880 	ld	a, _uptime_s+1
+      0084BE C2 00 17         [ 1]  881 	sbc	a, _fan_on_started_s+1
+      0084C1 90 97            [ 1]  882 	ld	yl, a
+      0084C3 C6 00 05         [ 1]  883 	ld	a, _uptime_s+0
+      0084C6 C2 00 16         [ 1]  884 	sbc	a, _fan_on_started_s+0
+      0084C9 88               [ 1]  885 	push	a
+      0084CA A3 01 2C         [ 2]  886 	cpw	x, #0x012c
+      0084CD 90 9F            [ 1]  887 	ld	a, yl
+      0084CF A2 00            [ 1]  888 	sbc	a, #0x00
+      0084D1 84               [ 1]  889 	pop	a
+      0084D2 A2 00            [ 1]  890 	sbc	a, #0x00
+      0084D4 25 52            [ 1]  891 	jrc	00123$
+                                    892 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
+      0084D6 A6 10            [ 1]  893 	ld	a, #0x10
+      0084D8 AE 50 0F         [ 2]  894 	ldw	x, #0x500f
+      0084DB CD 85 D6         [ 4]  895 	call	_GPIO_WriteLow
+      0084DE 72 5F 00 15      [ 1]  896 	clr	_fan_on+0
+                                    897 ;	main.c: 283: schedule_next_interval();        /* pick new jitter for the next interval */
+      0084E2 CD 82 8E         [ 4]  898 	call	_schedule_next_interval
+      0084E5 20 41            [ 2]  899 	jra	00123$
+      0084E7                        900 00111$:
+                                    901 ;	main.c: 287: if (uptime_s >= next_on_time_s) {
+      0084E7 CE 00 07         [ 2]  902 	ldw	x, _uptime_s+2
+      0084EA C3 00 1C         [ 2]  903 	cpw	x, _next_on_time_s+2
+      0084ED C6 00 06         [ 1]  904 	ld	a, _uptime_s+1
+      0084F0 C2 00 1B         [ 1]  905 	sbc	a, _next_on_time_s+1
+      0084F3 C6 00 05         [ 1]  906 	ld	a, _uptime_s+0
+      0084F6 C2 00 1A         [ 1]  907 	sbc	a, _next_on_time_s+0
+      0084F9 25 2D            [ 1]  908 	jrc	00123$
+                                    909 ;	main.c: 97: static inline void fan_on_fn(void){ GPIO_WriteHigh(FAN_PORT, FAN_PIN);  fan_on = 1; fan_on_started_s = uptime_s; }
+      0084FB A6 10            [ 1]  910 	ld	a, #0x10
+      0084FD AE 50 0F         [ 2]  911 	ldw	x, #0x500f
+      008500 CD 85 CD         [ 4]  912 	call	_GPIO_WriteHigh
+      008503 35 01 00 15      [ 1]  913 	mov	_fan_on+0, #0x01
+      008507 CE 00 07         [ 2]  914 	ldw	x, _uptime_s+2
+      00850A 90 CE 00 05      [ 2]  915 	ldw	y, _uptime_s+0
+      00850E CF 00 18         [ 2]  916 	ldw	_fan_on_started_s+2, x
+      008511 90 CF 00 16      [ 2]  917 	ldw	_fan_on_started_s+0, y
+                                    918 ;	main.c: 288: fan_on_fn();
+      008515 20 11            [ 2]  919 	jra	00123$
+      008517                        920 00116$:
+                                    921 ;	main.c: 293: if (fan_on) fan_off();
+      008517 C6 00 15         [ 1]  922 	ld	a, _fan_on+0
+      00851A 27 0C            [ 1]  923 	jreq	00123$
+                                    924 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
+      00851C A6 10            [ 1]  925 	ld	a, #0x10
+      00851E AE 50 0F         [ 2]  926 	ldw	x, #0x500f
+      008521 CD 85 D6         [ 4]  927 	call	_GPIO_WriteLow
+      008524 72 5F 00 15      [ 1]  928 	clr	_fan_on+0
+                                    929 ;	main.c: 293: if (fan_on) fan_off();
+      008528                        930 00123$:
+                                    931 ;	main.c: 204: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
+      008528 CD 8A C5         [ 4]  932 	call	_WWDG_GetCounter
+      00852B A4 7F            [ 1]  933 	and	a, #0x7f
+                                    934 ;	main.c: 205: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
+      00852D A1 50            [ 1]  935 	cp	a, #0x50
+      00852F 25 03            [ 1]  936 	jrc	00271$
+      008531 CC 83 F0         [ 2]  937 	jp	00137$
+      008534                        938 00271$:
+      008534 A1 44            [ 1]  939 	cp	a, #0x44
+      008536 24 03            [ 1]  940 	jrnc	00272$
+      008538 CC 83 F0         [ 2]  941 	jp	00137$
+      00853B                        942 00272$:
+                                    943 ;	main.c: 206: WWDG_SetCounter(WWDG_START_COUNTER);
+      00853B A6 7F            [ 1]  944 	ld	a, #0x7f
+      00853D CD 8A BF         [ 4]  945 	call	_WWDG_SetCounter
+                                    946 ;	main.c: 299: wwdg_service();
+                                    947 ;	main.c: 301: }
+      008540 CC 83 F0         [ 2]  948 	jp	00137$
+                                    949 	.area CODE
+                                    950 	.area CONST
+                                    951 	.area INITIALIZER
+      008039                        952 __xinit__uptime_ms:
+      008039 00 00 00 00            953 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      00803D                        954 __xinit__uptime_s:
+      00803D 00 00 00 00            955 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      008041                        956 __xinit__btn:
+      008041 01                     957 	.db #0x01	; 1
+      008042 01                     958 	.db #0x01	; 1
+      008043 00 00                  959 	.dw #0x0000
+      008045 00                     960 	.db #0x00	; 0
+      008046 00 00 00 00            961 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      00804A 00                     962 	.db #0x00	; 0
+      00804B 00                     963 	.db #0x00	; 0
+      00804C                        964 __xinit__mode:
+      00804C 00                     965 	.db #0x00	; 0
+      00804D                        966 __xinit__fan_on:
+      00804D 00                     967 	.db #0x00	; 0
+      00804E                        968 __xinit__fan_on_started_s:
+      00804E 00 00 00 00            969 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      008052                        970 __xinit__next_on_time_s:
+      008052 00 00 00 00            971 	.byte #0x00, #0x00, #0x00, #0x00	; 0
+      008056                        972 __xinit__lfsr:
+      008056 AC E1                  973 	.dw #0xace1
+                                    974 	.area CABS (ABS)

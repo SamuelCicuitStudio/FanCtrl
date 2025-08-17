@@ -570,41 +570,35 @@ _clock_init:
 ;	 function gpio_init
 ;	-----------------------------------------
 _gpio_init:
-;	main.c: 173: GPIO_DeInit(FAN_PORT);
+;	main.c: 173: GPIO_DeInit(GPIOC);
+	ldw	x, #0x500a
+	call	_GPIO_DeInit
+;	main.c: 174: GPIO_DeInit(GPIOD);
 	ldw	x, #0x500f
 	call	_GPIO_DeInit
-;	main.c: 174: GPIO_Init(FAN_PORT, FAN_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
+;	main.c: 175: GPIO_DeInit(GPIOB);
+	ldw	x, #0x5005
+	call	_GPIO_DeInit
+;	main.c: 178: GPIO_Init(FAN_PORT, FAN_PIN, GPIO_MODE_OUT_PP_LOW_FAST);
 	push	#0xe0
 	ld	a, #0x10
 	ldw	x, #0x500f
 	call	_GPIO_Init
-;	main.c: 177: GPIO_DeInit(LED_R_PORT);
-	ldw	x, #0x500a
-	call	_GPIO_DeInit
-;	main.c: 178: GPIO_Init(LED_R_PORT, LED_R_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+;	main.c: 181: GPIO_Init(LED_R_PORT, LED_R_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
 	push	#0xf0
 	ld	a, #0x80
 	ldw	x, #0x500a
 	call	_GPIO_Init
-;	main.c: 179: GPIO_DeInit(LED_G_PORT);
-	ldw	x, #0x500a
-	call	_GPIO_DeInit
-;	main.c: 180: GPIO_Init(LED_G_PORT, LED_G_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+;	main.c: 182: GPIO_Init(LED_G_PORT, LED_G_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
 	push	#0xf0
 	ld	a, #0x40
 	ldw	x, #0x500a
 	call	_GPIO_Init
-;	main.c: 181: GPIO_DeInit(LED_B_PORT);
-	ldw	x, #0x500a
-	call	_GPIO_DeInit
-;	main.c: 182: GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
+;	main.c: 183: GPIO_Init(LED_B_PORT, LED_B_PIN, GPIO_MODE_OUT_PP_HIGH_FAST);
 	push	#0xf0
 	ld	a, #0x20
 	ldw	x, #0x500a
 	call	_GPIO_Init
-;	main.c: 185: GPIO_DeInit(BTN_PORT);
-	ldw	x, #0x5005
-	call	_GPIO_DeInit
 ;	main.c: 186: GPIO_Init(BTN_PORT, BTN_PIN, GPIO_MODE_IN_PU_NO_IT);
 	push	#0x40
 	ld	a, #0x10
@@ -612,45 +606,45 @@ _gpio_init:
 	call	_GPIO_Init
 ;	main.c: 187: }
 	ret
-;	main.c: 189: static void tim4_init_1ms(void) {
+;	main.c: 190: static void tim4_init_1ms(void) {
 ;	-----------------------------------------
 ;	 function tim4_init_1ms
 ;	-----------------------------------------
 _tim4_init_1ms:
-;	main.c: 191: TIM4_TimeBaseInit(TIM4_PRESCALER_128, 125 - 1);
+;	main.c: 192: TIM4_TimeBaseInit(TIM4_PRESCALER_128, 125 - 1);
 	push	#0x7c
 	ld	a, #0x07
 	call	_TIM4_TimeBaseInit
-;	main.c: 192: TIM4_SetCounter(0);
+;	main.c: 193: TIM4_SetCounter(0);
 	clr	a
 	call	_TIM4_SetCounter
-;	main.c: 193: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
+;	main.c: 194: TIM4_ClearFlag(TIM4_FLAG_UPDATE);
 	ld	a, #0x01
 	call	_TIM4_ClearFlag
-;	main.c: 194: TIM4_Cmd(ENABLE);
+;	main.c: 195: TIM4_Cmd(ENABLE);
 	ld	a, #0x01
-;	main.c: 195: }
+;	main.c: 196: }
 	jp	_TIM4_Cmd
-;	main.c: 197: static void wwdg_init(void) {
+;	main.c: 198: static void wwdg_init(void) {
 ;	-----------------------------------------
 ;	 function wwdg_init
 ;	-----------------------------------------
 _wwdg_init:
-;	main.c: 198: WWDG_Init(WWDG_START_COUNTER, WWDG_WINDOW);
+;	main.c: 199: WWDG_Init(WWDG_START_COUNTER, WWDG_WINDOW);
 	push	#0x50
 	ld	a, #0x7f
 	call	_WWDG_Init
-;	main.c: 199: }
+;	main.c: 200: }
 	ret
-;	main.c: 202: static inline void wwdg_service(void) {
+;	main.c: 203: static inline void wwdg_service(void) {
 ;	-----------------------------------------
 ;	 function wwdg_service
 ;	-----------------------------------------
 _wwdg_service:
-;	main.c: 203: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
+;	main.c: 204: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
 	call	_WWDG_GetCounter
 	and	a, #0x7f
-;	main.c: 204: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
+;	main.c: 205: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
 	cp	a, #0x50
 	jrc	00120$
 	ret
@@ -659,16 +653,16 @@ _wwdg_service:
 	jrnc	00121$
 	ret
 00121$:
-;	main.c: 205: WWDG_SetCounter(WWDG_START_COUNTER);
+;	main.c: 206: WWDG_SetCounter(WWDG_START_COUNTER);
 	ld	a, #0x7f
-;	main.c: 207: }
+;	main.c: 208: }
 	jp	_WWDG_SetCounter
-;	main.c: 210: static void enter_mode(mode_t m) {
+;	main.c: 211: static void enter_mode(mode_t m) {
 ;	-----------------------------------------
 ;	 function enter_mode
 ;	-----------------------------------------
 _enter_mode:
-;	main.c: 213: switch (mode) {
+;	main.c: 214: switch (mode) {
 	ld	_mode+0, a
 	jreq	00101$
 	ld	a, _mode+0
@@ -681,19 +675,19 @@ _enter_mode:
 	cp	a, #0x03
 	jreq	00104$
 	ret
-;	main.c: 214: case MODE_OFF:
+;	main.c: 215: case MODE_OFF:
 00101$:
 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
 	ld	a, #0x10
 	ldw	x, #0x500f
 	call	_GPIO_WriteLow
 	clr	_fan_on+0
-;	main.c: 216: led_off_all();
-;	main.c: 217: break;
+;	main.c: 217: led_off_all();
+;	main.c: 218: break;
 	jp	_led_off_all
-;	main.c: 221: case MODE_HIGH:
+;	main.c: 222: case MODE_HIGH:
 00104$:
-;	main.c: 223: led_set_for_mode(mode);
+;	main.c: 224: led_set_for_mode(mode);
 	ld	a, _mode+0
 	call	_led_set_for_mode
 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
@@ -701,16 +695,16 @@ _enter_mode:
 	ldw	x, #0x500f
 	call	_GPIO_WriteLow
 	clr	_fan_on+0
-;	main.c: 225: schedule_next_interval();
-;	main.c: 227: }
+;	main.c: 226: schedule_next_interval();
 ;	main.c: 228: }
+;	main.c: 229: }
 	jp	_schedule_next_interval
-;	main.c: 231: static void advance_mode(void) {
+;	main.c: 232: static void advance_mode(void) {
 ;	-----------------------------------------
 ;	 function advance_mode
 ;	-----------------------------------------
 _advance_mode:
-;	main.c: 232: switch (mode) {
+;	main.c: 233: switch (mode) {
 	ld	a, _mode+0
 	jreq	00101$
 	ld	a, _mode+0
@@ -723,42 +717,42 @@ _advance_mode:
 	cp	a, #0x03
 	jreq	00104$
 	ret
-;	main.c: 233: case MODE_OFF:  enter_mode(MODE_ECO);  break;
+;	main.c: 234: case MODE_OFF:  enter_mode(MODE_ECO);  break;
 00101$:
 	ld	a, #0x01
 	jp	_enter_mode
-;	main.c: 234: case MODE_ECO:  enter_mode(MODE_MID);  break;
+;	main.c: 235: case MODE_ECO:  enter_mode(MODE_MID);  break;
 00102$:
 	ld	a, #0x02
 	jp	_enter_mode
-;	main.c: 235: case MODE_MID:  enter_mode(MODE_HIGH); break;
+;	main.c: 236: case MODE_MID:  enter_mode(MODE_HIGH); break;
 00103$:
 	ld	a, #0x03
 	jp	_enter_mode
-;	main.c: 236: case MODE_HIGH: enter_mode(MODE_OFF);  break;
+;	main.c: 237: case MODE_HIGH: enter_mode(MODE_OFF);  break;
 00104$:
 	clr	a
-;	main.c: 237: }
 ;	main.c: 238: }
+;	main.c: 239: }
 	jp	_enter_mode
-;	main.c: 241: int main(void) {
+;	main.c: 242: int main(void) {
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
 	sub	sp, #4
-;	main.c: 242: clock_init();
+;	main.c: 243: clock_init();
 	call	_clock_init
-;	main.c: 243: gpio_init();
+;	main.c: 244: gpio_init();
 	call	_gpio_init
-;	main.c: 244: tim4_init_1ms();
+;	main.c: 245: tim4_init_1ms();
 	call	_tim4_init_1ms
-;	main.c: 245: wwdg_init();
+;	main.c: 246: wwdg_init();
 	call	_wwdg_init
-;	main.c: 248: enter_mode(MODE_OFF);
+;	main.c: 249: enter_mode(MODE_OFF);
 	clr	a
 	call	_enter_mode
-;	main.c: 251: lfsr ^= (uint16_t)TIM4->CNTR;
+;	main.c: 252: lfsr ^= (uint16_t)TIM4->CNTR;
 	ld	a, 0x5346
 	xor	a, _lfsr+1
 	ld	xl, a
@@ -766,7 +760,7 @@ _main:
 	xor	a, _lfsr+0
 	ld	xh, a
 	ldw	_lfsr+0, x
-;	main.c: 253: uint32_t last_ms = 0;
+;	main.c: 254: uint32_t last_ms = 0;
 	clrw	x
 	ldw	(0x03, sp), x
 	ldw	(0x01, sp), x
@@ -812,9 +806,9 @@ _main:
 00250$:
 	ldw	_uptime_s+2, x
 	ldw	_uptime_s+0, y
-;	main.c: 257: tick_1ms_poll();
+;	main.c: 258: tick_1ms_poll();
 00129$:
-;	main.c: 260: if (uptime_ms != last_ms) {
+;	main.c: 261: if (uptime_ms != last_ms) {
 	ldw	x, (0x03, sp)
 	cpw	x, _uptime_ms+2
 	jrne	00252$
@@ -823,32 +817,32 @@ _main:
 	jrne	00252$
 	jp	00123$
 00252$:
-;	main.c: 261: last_ms = uptime_ms;
+;	main.c: 262: last_ms = uptime_ms;
 	ldw	x, _uptime_ms+2
 	ldw	(0x03, sp), x
 	ldw	x, _uptime_ms+0
 	ldw	(0x01, sp), x
-;	main.c: 264: button_update_1ms();
+;	main.c: 265: button_update_1ms();
 	call	_button_update_1ms
-;	main.c: 267: if (btn.long_event) {
+;	main.c: 268: if (btn.long_event) {
 	ld	a, _btn+10
 	jreq	00104$
-;	main.c: 268: btn.long_event = 0u;
+;	main.c: 269: btn.long_event = 0u;
 	mov	_btn+10, #0x00
-;	main.c: 269: enter_mode(MODE_OFF);                 /* Long press => OFF */
+;	main.c: 270: enter_mode(MODE_OFF);                 /* Long press => OFF */
 	clr	a
 	call	_enter_mode
 	jra	00105$
 00104$:
-;	main.c: 270: } else if (btn.short_event) {
+;	main.c: 271: } else if (btn.short_event) {
 	ld	a, _btn+9
 	jreq	00105$
-;	main.c: 271: btn.short_event = 0u;
+;	main.c: 272: btn.short_event = 0u;
 	mov	_btn+9, #0x00
-;	main.c: 272: advance_mode();                        /* Short press => next mode, LED updates immediately */
+;	main.c: 273: advance_mode();                        /* Short press => next mode, LED updates immediately */
 	call	_advance_mode
 00105$:
-;	main.c: 276: if ((uptime_ms % MS_PER_SEC) == 0u) {
+;	main.c: 277: if ((uptime_ms % MS_PER_SEC) == 0u) {
 	push	#0xe8
 	push	#0x03
 	clrw	x
@@ -866,7 +860,7 @@ _main:
 00256$:
 	jp	00123$
 00257$:
-;	main.c: 277: if (mode == MODE_ECO || mode == MODE_MID || mode == MODE_HIGH) {
+;	main.c: 278: if (mode == MODE_ECO || mode == MODE_MID || mode == MODE_HIGH) {
 	ld	a, _mode+0
 	dec	a
 	jreq	00115$
@@ -877,10 +871,10 @@ _main:
 	cp	a, #0x03
 	jrne	00116$
 00115$:
-;	main.c: 278: if (fan_on) {
+;	main.c: 279: if (fan_on) {
 	ld	a, _fan_on+0
 	jreq	00111$
-;	main.c: 280: if ((uptime_s - fan_on_started_s) >= FAN_ON_DURATION_S) {
+;	main.c: 281: if ((uptime_s - fan_on_started_s) >= FAN_ON_DURATION_S) {
 	ldw	x, _uptime_s+2
 	subw	x, _fan_on_started_s+2
 	ld	a, _uptime_s+1
@@ -900,11 +894,11 @@ _main:
 	ldw	x, #0x500f
 	call	_GPIO_WriteLow
 	clr	_fan_on+0
-;	main.c: 282: schedule_next_interval();        /* pick new jitter for the next interval */
+;	main.c: 283: schedule_next_interval();        /* pick new jitter for the next interval */
 	call	_schedule_next_interval
 	jra	00123$
 00111$:
-;	main.c: 286: if (uptime_s >= next_on_time_s) {
+;	main.c: 287: if (uptime_s >= next_on_time_s) {
 	ldw	x, _uptime_s+2
 	cpw	x, _next_on_time_s+2
 	ld	a, _uptime_s+1
@@ -921,10 +915,10 @@ _main:
 	ldw	y, _uptime_s+0
 	ldw	_fan_on_started_s+2, x
 	ldw	_fan_on_started_s+0, y
-;	main.c: 287: fan_on_fn();
+;	main.c: 288: fan_on_fn();
 	jra	00123$
 00116$:
-;	main.c: 292: if (fan_on) fan_off();
+;	main.c: 293: if (fan_on) fan_off();
 	ld	a, _fan_on+0
 	jreq	00123$
 ;	main.c: 96: static inline void fan_off(void)  { GPIO_WriteLow (FAN_PORT, FAN_PIN);  fan_on = 0; }
@@ -932,12 +926,12 @@ _main:
 	ldw	x, #0x500f
 	call	_GPIO_WriteLow
 	clr	_fan_on+0
-;	main.c: 292: if (fan_on) fan_off();
+;	main.c: 293: if (fan_on) fan_off();
 00123$:
-;	main.c: 203: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
+;	main.c: 204: uint8_t c = (uint8_t)(WWDG_GetCounter() & 0x7F);
 	call	_WWDG_GetCounter
 	and	a, #0x7f
-;	main.c: 204: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
+;	main.c: 205: if ((c < WWDG_WINDOW) && (c >= WWDG_REFRESH_FLOOR)) {
 	cp	a, #0x50
 	jrc	00271$
 	jp	00137$
@@ -946,11 +940,11 @@ _main:
 	jrnc	00272$
 	jp	00137$
 00272$:
-;	main.c: 205: WWDG_SetCounter(WWDG_START_COUNTER);
+;	main.c: 206: WWDG_SetCounter(WWDG_START_COUNTER);
 	ld	a, #0x7f
 	call	_WWDG_SetCounter
-;	main.c: 298: wwdg_service();
-;	main.c: 300: }
+;	main.c: 299: wwdg_service();
+;	main.c: 301: }
 	jp	00137$
 	.area CODE
 	.area CONST

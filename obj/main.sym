@@ -36,12 +36,12 @@ Symbol Table
   9 __xinit__next_on_time_s                                        000019 R
   9 __xinit__uptime_ms                                             000000 R
   9 __xinit__uptime_s                                              000004 R
-  A _advance_mode                                                  000351 R
+  A _advance_mode                                                  000345 R
   2 _btn                                                           000008 R
   A _button_raw_level                                              000177 R
   A _button_update_1ms                                             000187 R
   A _clock_init                                                    000285 R
-  A _enter_mode                                                    000313 R
+  A _enter_mode                                                    000307 R
   A _fan_off                                                       00010D R
   2 _fan_on                                                        000014 R
   A _fan_on_fn                                                     00011A R
@@ -50,14 +50,14 @@ Symbol Table
   A _led_off_all                                                   000135 R
   A _led_set_for_mode                                              00014D R
   2 _lfsr                                                          00001D R
-  A _main                                                          00037E GR
+  A _main                                                          000372 GR
   2 _mode                                                          000013 R
   2 _next_on_time_s                                                000019 R
   A _rand16                                                        000054 R
   A _rand_minutes_range_to_seconds                                 0000A4 R
   A _schedule_next_interval                                        000236 R
   A _tick_1ms_poll                                                 000000 R
-  A _tim4_init_1ms                                                 0002E2 R
+  A _tim4_init_1ms                                                 0002D6 R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (STMicroelectronics STM8)  Page 2
 Hexadecimal [24-Bits]
 
@@ -65,8 +65,8 @@ Symbol Table
 
   2 _uptime_ms                                                     000000 R
   2 _uptime_s                                                      000004 R
-  A _wwdg_init                                                     0002F7 R
-  A _wwdg_service                                                  0002FF R
+  A _wwdg_init                                                     0002EB R
+  A _wwdg_service                                                  0002F3 R
     l_DATA                                                         ****** GX
     l_INITIALIZER                                                  ****** GX
     s_DATA                                                         ****** GX
@@ -90,6 +90,6 @@ Area Table
    7 GSFINAL                                    size      3   flags    0
    8 CONST                                      size      0   flags    0
    9 INITIALIZER                                size     1F   flags    0
-   A CODE                                       size    4F7   flags    0
+   A CODE                                       size    4EB   flags    0
    B CABS                                       size      0   flags    8
 

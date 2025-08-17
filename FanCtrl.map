@@ -25,7 +25,7 @@ Area                                    Addr        Size        Decimal Bytes (A
      0000001F  l_INITIALIZER                   
      00000020  s_SSEG                          
      00000023  l_GSINIT                        
-     00000AF2  l_CODE                          
+     00000AE6  l_CODE                          
      00008000  s_HOME                          
      00008007  s_GSINIT                        
      0000802A  s_GSFINAL                       
@@ -104,78 +104,78 @@ Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CODE                                00008058    00000AF2 =        2802. bytes (REL,CON)
+CODE                                00008058    00000AE6 =        2790. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     000083D6  _main                              main
-     0000854F  _GPIO_DeInit                       stm8s_gpio
-     0000855C  _GPIO_Init                         stm8s_gpio
-     000085D7  _GPIO_Write                        stm8s_gpio
-     000085D9  _GPIO_WriteHigh                    stm8s_gpio
-     000085E2  _GPIO_WriteLow                     stm8s_gpio
-     000085EE  _GPIO_WriteReverse                 stm8s_gpio
-     000085F7  _GPIO_ReadOutputData               stm8s_gpio
-     000085F9  _GPIO_ReadInputData                stm8s_gpio
-     000085FC  _GPIO_ReadInputPin                 stm8s_gpio
-     00008609  _GPIO_ExternalPullUpConfig         stm8s_gpio
-     00008623  _TIM4_DeInit                       stm8s_tim4
-     0000863C  _TIM4_TimeBaseInit                 stm8s_tim4
-     00008648  _TIM4_Cmd                          stm8s_tim4
-     00008660  _TIM4_ITConfig                     stm8s_tim4
-     0000867E  _TIM4_UpdateDisableConfig          stm8s_tim4
-     00008696  _TIM4_UpdateRequestConfig          stm8s_tim4
-     000086AE  _TIM4_SelectOnePulseMode           stm8s_tim4
-     000086C6  _TIM4_PrescalerConfig              stm8s_tim4
-     000086D1  _TIM4_ARRPreloadConfig             stm8s_tim4
-     000086E9  _TIM4_GenerateEvent                stm8s_tim4
-     000086ED  _TIM4_SetCounter                   stm8s_tim4
-     000086F1  _TIM4_SetAutoreload                stm8s_tim4
-     000086F5  _TIM4_GetCounter                   stm8s_tim4
-     000086F9  _TIM4_GetPrescaler                 stm8s_tim4
-     000086FD  _TIM4_GetFlagStatus                stm8s_tim4
-     0000870D  _TIM4_ClearFlag                    stm8s_tim4
-     00008712  _TIM4_GetITStatus                  stm8s_tim4
-     00008733  _TIM4_ClearITPendingBit            stm8s_tim4
-     00008738  _CLK_DeInit                        stm8s_clk
-     0000876E  _CLK_FastHaltWakeUpCmd             stm8s_clk
-     00008786  _CLK_HSECmd                        stm8s_clk
-     0000879E  _CLK_HSICmd                        stm8s_clk
-     000087B6  _CLK_LSICmd                        stm8s_clk
-     000087CE  _CLK_CCOCmd                        stm8s_clk
-     000087E6  _CLK_ClockSwitchCmd                stm8s_clk
-     000087FE  _CLK_SlowActiveHaltWakeUpCmd       stm8s_clk
-     00008816  _CLK_PeripheralClockConfig         stm8s_clk
-     00008860  _CLK_ClockSwitchConfig             stm8s_clk
-     0000890C  _CLK_HSIPrescalerConfig            stm8s_clk
-     00008921  _CLK_CCOConfig                     stm8s_clk
-     0000893A  _CLK_ITConfig                      stm8s_clk
-     0000898B  _CLK_SYSCLKConfig                  stm8s_clk
-     000089BB  _CLK_SWIMConfig                    stm8s_clk
-     000089D3  _CLK_ClockSecuritySystemEnable     stm8s_clk
-     000089D8  _CLK_GetSYSCLKSource               stm8s_clk
-     000089DC  _CLK_GetClockFreq                  stm8s_clk
-     00008A25  _CLK_AdjustHSICalibrationValue     stm8s_clk
-     00008A34  _CLK_SYSCLKEmergencyClear          stm8s_clk
-     00008A39  _CLK_GetFlagStatus                 stm8s_clk
+     000083CA  _main                              main
+     00008543  _GPIO_DeInit                       stm8s_gpio
+     00008550  _GPIO_Init                         stm8s_gpio
+     000085CB  _GPIO_Write                        stm8s_gpio
+     000085CD  _GPIO_WriteHigh                    stm8s_gpio
+     000085D6  _GPIO_WriteLow                     stm8s_gpio
+     000085E2  _GPIO_WriteReverse                 stm8s_gpio
+     000085EB  _GPIO_ReadOutputData               stm8s_gpio
+     000085ED  _GPIO_ReadInputData                stm8s_gpio
+     000085F0  _GPIO_ReadInputPin                 stm8s_gpio
+     000085FD  _GPIO_ExternalPullUpConfig         stm8s_gpio
+     00008617  _TIM4_DeInit                       stm8s_tim4
+     00008630  _TIM4_TimeBaseInit                 stm8s_tim4
+     0000863C  _TIM4_Cmd                          stm8s_tim4
+     00008654  _TIM4_ITConfig                     stm8s_tim4
+     00008672  _TIM4_UpdateDisableConfig          stm8s_tim4
+     0000868A  _TIM4_UpdateRequestConfig          stm8s_tim4
+     000086A2  _TIM4_SelectOnePulseMode           stm8s_tim4
+     000086BA  _TIM4_PrescalerConfig              stm8s_tim4
+     000086C5  _TIM4_ARRPreloadConfig             stm8s_tim4
+     000086DD  _TIM4_GenerateEvent                stm8s_tim4
+     000086E1  _TIM4_SetCounter                   stm8s_tim4
+     000086E5  _TIM4_SetAutoreload                stm8s_tim4
+     000086E9  _TIM4_GetCounter                   stm8s_tim4
+     000086ED  _TIM4_GetPrescaler                 stm8s_tim4
+     000086F1  _TIM4_GetFlagStatus                stm8s_tim4
+     00008701  _TIM4_ClearFlag                    stm8s_tim4
+     00008706  _TIM4_GetITStatus                  stm8s_tim4
+     00008727  _TIM4_ClearITPendingBit            stm8s_tim4
+     0000872C  _CLK_DeInit                        stm8s_clk
+     00008762  _CLK_FastHaltWakeUpCmd             stm8s_clk
+     0000877A  _CLK_HSECmd                        stm8s_clk
+     00008792  _CLK_HSICmd                        stm8s_clk
+     000087AA  _CLK_LSICmd                        stm8s_clk
+     000087C2  _CLK_CCOCmd                        stm8s_clk
+     000087DA  _CLK_ClockSwitchCmd                stm8s_clk
+     000087F2  _CLK_SlowActiveHaltWakeUpCmd       stm8s_clk
+     0000880A  _CLK_PeripheralClockConfig         stm8s_clk
+     00008854  _CLK_ClockSwitchConfig             stm8s_clk
+     00008900  _CLK_HSIPrescalerConfig            stm8s_clk
+     00008915  _CLK_CCOConfig                     stm8s_clk
+     0000892E  _CLK_ITConfig                      stm8s_clk
+     0000897F  _CLK_SYSCLKConfig                  stm8s_clk
+     000089AF  _CLK_SWIMConfig                    stm8s_clk
+     000089C7  _CLK_ClockSecuritySystemEnable     stm8s_clk
+     000089CC  _CLK_GetSYSCLKSource               stm8s_clk
+     000089D0  _CLK_GetClockFreq                  stm8s_clk
+     00008A19  _CLK_AdjustHSICalibrationValue     stm8s_clk
+     00008A28  _CLK_SYSCLKEmergencyClear          stm8s_clk
+     00008A2D  _CLK_GetFlagStatus                 stm8s_clk
 ASxxxx Linker V03.00/V05.40 + sdld,  page 10.
 Hexadecimal  [32-Bits]
 
 Area                                    Addr        Size        Decimal Bytes (Attributes)
 --------------------------------        ----        ----        ------- ----- ------------
-CODE                                00008058    00000AF2 =        2802. bytes (REL,CON)
+CODE                                00008058    00000AE6 =        2790. bytes (REL,CON)
 
       Value  Global                              Global Defined In Module
       -----  --------------------------------   ------------------------
-     00008A83  _CLK_GetITStatus                   stm8s_clk
-     00008AA8  _CLK_ClearITPendingBit             stm8s_clk
-     00008AB6  _WWDG_Init                         stm8s_wwdg
-     00008ACB  _WWDG_SetCounter                   stm8s_wwdg
-     00008AD1  _WWDG_GetCounter                   stm8s_wwdg
-     00008AD5  _WWDG_SWReset                      stm8s_wwdg
-     00008ADA  _WWDG_SetWindowValue               stm8s_wwdg
-     00008AE2  __modulong                         _modulong
-     00008B48  ___sdcc_external_startup           _startup
+     00008A77  _CLK_GetITStatus                   stm8s_clk
+     00008A9C  _CLK_ClearITPendingBit             stm8s_clk
+     00008AAA  _WWDG_Init                         stm8s_wwdg
+     00008ABF  _WWDG_SetCounter                   stm8s_wwdg
+     00008AC5  _WWDG_GetCounter                   stm8s_wwdg
+     00008AC9  _WWDG_SWReset                      stm8s_wwdg
+     00008ACE  _WWDG_SetWindowValue               stm8s_wwdg
+     00008AD6  __modulong                         _modulong
+     00008B3C  ___sdcc_external_startup           _startup
 
 ASxxxx Linker V03.00/V05.40 + sdld,  page 11.
 
